@@ -16,11 +16,16 @@ body {
 
 /* Clock layout */
 .clock {
-  position: relative;
+  position: absolute;       /* or keep it static/relative if using flex/grid */
+  left: 40px;               /* tweak as you like */
+  top: 80px;                /* tweak as you like */
   display: flex;
   flex-flow: column wrap;
   width: 280px;
   height: 100px;
+  /* optional: scale control */
+  transform: scale(var(--clock-scale, 1));
+  transform-origin: top left;
 }
 
 /* Blocks (60 total, grouped as 4×15) */
