@@ -2,4 +2,12 @@ body{
     background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
     width: 100vw;
     height: 100vh;
+    margin: 10px auto;
+    padding: 100px;
+    overflow: hidden;
+}
+.welcome{
+    color: whitesmoke;
+    padding: 10px;
+    font-size: 60px;
 }

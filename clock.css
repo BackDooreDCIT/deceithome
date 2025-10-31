@@ -5,7 +5,7 @@ body {
   font-family: 'Roboto Mono', monospace;
 }
 .clock {
-  position: absolute;       /* or keep it static/relative if using flex/grid */
+  position: static;       /* or keep it static/relative if using flex/grid */
   left: 40px;
   top: 80px;
   display: flex;
@@ -13,7 +13,7 @@ body {
   width: 280px;
   height: 100px;
   /* optional: scale control */
-  transform: scale(var(--clock-scale, 1));
+  transform: scale(var(--clock-scale, 1.35));
   transform-origin: top left;
 }
 .clock .block {
@@ -49,12 +49,12 @@ body {
 /* Active digits (hours/minutes) */
 .clock .block.active::before {
   color: whitesmoke;
-  font-weight: 500;
+  font-weight: bolder;
   transition: 0.175s ease-in-out;
 }
 /* Second indicator (orange) */
 .clock .block.second::before {
-  color: #0077ff;
+  color: #00d5ff;
   transition: 0.175s ease-in-out;
 }
 /* Divider */
