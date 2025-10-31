@@ -40,7 +40,7 @@ body {
   height: 100%;
   line-height: 20px;
   text-align: center;
-  transition: 0.175s ease-in;
+  transition: 0.175s ease-in-out;
 }
 /* Leading zero for 0–9 */
 .clock .block:nth-child(-n + 10)::before {
@@ -50,12 +50,12 @@ body {
 .clock .block.active::before {
   color: whitesmoke;
   font-weight: 500;
-  transition: 0.175s ease-in;
+  transition: 0.175s ease-in-out;
 }
 /* Second indicator (orange) */
 .clock .block.second::before {
   color: #0077ff;
-  transition: 0.175s ease-in;
+  transition: 0.175s ease-in-out;
 }
 /* Divider */
 .clock .divider {
