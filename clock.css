@@ -4,12 +4,10 @@
 body {
   font-family: 'Roboto Mono', monospace;
 }
-
-/* Clock layout */
 .clock {
   position: absolute;       /* or keep it static/relative if using flex/grid */
-  left: 40px;               /* tweak as you like */
-  top: 80px;                /* tweak as you like */
+  left: 40px;
+  top: 80px;
   display: flex;
   flex-flow: column wrap;
   width: 280px;
@@ -18,17 +16,13 @@ body {
   transform: scale(var(--clock-scale, 1));
   transform-origin: top left;
 }
-
-/* Blocks (60 total, grouped as 4×15) */
 .clock .block {
   width: calc(100% / 12);
   height: 20%;
-  color: #4d4d4d; /* approx lighten(#333, 8%) */
+  color: #4d4d4d;
   transition: .4s;
   position: relative;
 }
-
-/* Spacing columns between groups (match Sass nth-child logic) */
 .clock .block:not(:nth-child(n + 16)):nth-child(n + 11),
 .clock .block:not(:nth-child(n + 46)):nth-child(n + 41) {
   margin-right: 10px;
@@ -36,7 +30,6 @@ body {
 .clock .block:not(:nth-child(n + 31)):nth-child(n + 26) {
   margin-right: 20px;
 }
-
 /* Number labels */
 .clock .block::before {
   content: attr(data-num);
@@ -47,24 +40,23 @@ body {
   height: 100%;
   line-height: 20px;
   text-align: center;
+  transition: 0.175s ease-in;
 }
-
 /* Leading zero for 0–9 */
 .clock .block:nth-child(-n + 10)::before {
   content: "0" attr(data-num);
 }
-
 /* Active digits (hours/minutes) */
 .clock .block.active::before {
   color: whitesmoke;
   font-weight: 500;
+  transition: 0.175s ease-in;
 }
-
 /* Second indicator (orange) */
 .clock .block.second::before {
-  color: #FF8300;
+  color: #0077ff;
+  transition: 0.175s ease-in;
 }
-
 /* Divider */
 .clock .divider {
   position: absolute;
