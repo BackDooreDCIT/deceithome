@@ -11,3 +11,6 @@ body{
     padding: 10px;
     font-size: 60px;
 }
+input{
+    width: 100%;
+}
