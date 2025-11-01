@@ -19,8 +19,8 @@ body {
 .clock .block {
   width: calc(100% / 12);
   height: 20%;
-  color: #4d4d4d;
-  transition: .4s;
+  color: transparent;
+  transition: 0.2s;
   position: relative;
 }
 .clock .block:not(:nth-child(n + 16)):nth-child(n + 11),
@@ -51,11 +51,21 @@ body {
   color: whitesmoke;
   font-weight: bolder;
   transition: 0.175s ease-in-out;
+  text-shadow:
+    -1px -1px 0 #000, /* Top-left shadow */
+     1px -1px 0 #000, /* Top-right shadow */
+    -1px  1px 0 #000, /* Bottom-left shadow */
+     1px  1px 0 #000; /* Bottom-right shadow */
 }
 /* Second indicator (orange) */
 .clock .block.second::before {
   color: #00d5ff;
   transition: 0.175s ease-in-out;
+  text-shadow:
+    -1px -1px 0 #000, /* Top-left shadow */
+     1px -1px 0 #000, /* Top-right shadow */
+    -1px  1px 0 #000, /* Bottom-left shadow */
+     1px  1px 0 #000; /* Bottom-right shadow */
 }
 /* Divider */
 .clock .divider {
