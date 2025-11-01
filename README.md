@@ -16,8 +16,8 @@ An example of what the page could be customized to.
 - [ ]  Clock (Analog)
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar**
-- [ ]  **Search Suggestion**
-- [ ]  **Shortcuts**
+- [ ]  Search Suggestion
+- [ ]  Shortcuts
 - [x]  **Customizable Background**
 
 # License
