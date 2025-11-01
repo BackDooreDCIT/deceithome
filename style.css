@@ -5,11 +5,28 @@ body{
     margin: 10px auto;
     padding: 100px;
     overflow: hidden;
+    background-image: url('img/emubackground.jpg');
+    background-size: cover;
+}
+@keyframes fadein{
+    0%{
+        color: transparent;
+    }
+    100%{
+        color: whitesmoke;
+    }
 }
 .welcome{
     color: whitesmoke;
     padding: 10px;
     font-size: 60px;
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left shadow */
+     1px -1px 0 #000, /* Top-right shadow */
+    -1px  1px 0 #000, /* Bottom-left shadow */
+     1px  1px 0 #000; /* Bottom-right shadow */
+    animation-name: fadein;
+    animation-duration: 0.3s;
 }
 input{
     width: 100%;
