@@ -1,9 +1,9 @@
 {
-    "name" : "deceit's custom homepage",
-    "description" : "",
+    "name" : "deceithome",
+    "description" : "custom homepage",
     "version" : "1.0",
     "manifest_version" : 3,
-    "chrome_url_override" : {
+    "chrome_url_overrides" : {
         "newtab" : "index.html"
     }
 }
