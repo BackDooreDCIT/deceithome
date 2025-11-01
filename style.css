@@ -30,7 +30,17 @@ body{
 }
 input{
     width: 100%;
+    font-size: 25px;
     font-family: 'Roboto Mono', monospace;
+    background: transparent;
     border: 0 none;
     color: whitesmoke;
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left shadow */
+     1px -1px 0 #000, /* Top-right shadow */
+    -1px  1px 0 #000, /* Bottom-left shadow */
+     1px  1px 0 #000; /* Bottom-right shadow */
+}
+input:focus{
+    outline: none;
 }
