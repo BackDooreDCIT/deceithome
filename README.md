@@ -17,7 +17,7 @@ An example of what the page could be customized to.
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar**
 - [ ]  Search Suggestion
-- [x]  Shortcuts
+- [x]  **Shortcuts**
 - [x]  **Customizable Background**
 
 # Installation
