@@ -20,6 +20,24 @@ An example of what the page could be customized to.
 - [ ]  Shortcuts
 - [x]  **Customizable Background**
 
+# Installation
+
+To install this extension on Chrome, **you will need to clone this repository.** After you’re done cloning, you will need to **load an unpacked extension** into your Chrome browser.
+
+Don’t know how? Here’s a quick guide.
+
+To load an unpacked extension in developer mode:
+
+1. Go to the Extensions page by entering `chrome://extensions` in a new tab. (By design `chrome://` URLs are not linkable.)
+    - Alternatively, click the Extensions menu puzzle button and select **Manage Extensions** at the bottom of the menu.
+    - Or, click the Chrome menu, hover over **More Tools,** then select **Extensions**.
+2. Enable Developer Mode by clicking the toggle switch next to **Developer mode**.
+3. Click the **Load unpacked** button and select the extension directory.
+
+![guide.png](img/guide.png)
+
+Guide & image source [**here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world).**
+
 # License
 
 **MIT License - Use freely in your projects, commercial or personal.**
