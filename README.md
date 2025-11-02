@@ -36,7 +36,7 @@ To load an unpacked extension in developer mode:
 
 ![guide.png](img/guide.png)
 
-Guide & image source **[here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world).**
+*Guide & image source **[here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world).***
 
 # License
 
