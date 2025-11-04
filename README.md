@@ -1,7 +1,6 @@
 # deceithome
 
 A **Chrome extension** for customizing your New Tab page into a clean, and minimalistic page
-
 *(Currently only for personal uses, a customizable version will be made after I finish my own)*
 
 (This project's progress is currently slowed down due to studies.)
