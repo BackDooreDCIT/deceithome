@@ -13,7 +13,7 @@ body{
     top: 0;
     left: 0;
     z-index: -9;
-    background-image: url('img/emubackground.jpg');
+    background-image: url('img/default.jpg');
     background-position: center;
     background-size: cover;
     width: 100%;
