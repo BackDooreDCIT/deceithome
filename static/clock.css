@@ -2,7 +2,7 @@
 * { box-sizing: border-box; }
 
 body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "lexend", sans-serif;
 }
 .clock {
   position: static;       /* or keep it static/relative if using flex/grid */
