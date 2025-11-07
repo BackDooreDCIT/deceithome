@@ -7,7 +7,7 @@ A **Chrome extension** for customizing your New Tab page into a clean, and minim
 
 # Overview
 
-![image.png](https://media.discordapp.net/attachments/697244690847891597/1434195069459628185/image.png?ex=690771be&is=6906203e&hm=f275d96b9fcb7bcffba2195df6f5f841dad2c8b376f366318168f5749b048c26&=&format=webp&quality=lossless&width=982&height=552)
+![preview.png](https://media.discordapp.net/attachments/697244690847891597/1434195069459628185/image.png?ex=690771be&is=6906203e&hm=f275d96b9fcb7bcffba2195df6f5f841dad2c8b376f366318168f5749b048c26&=&format=webp&quality=lossless&width=982&height=552)
 
 An example of what the page could be customized to.
 
