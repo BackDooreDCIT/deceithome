@@ -62,6 +62,7 @@ body {
      1px -1px 0 #000, /* Top-right shadow */
     -1px  1px 0 #000, /* Bottom-left shadow */
      1px  1px 0 #000; /* Bottom-right shadow */
+  filter: drop-shadow(10px 10px 7px #000);
 }
 /* Divider */
 .clock .divider {
