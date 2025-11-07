@@ -36,13 +36,9 @@ body{
     color: whitesmoke;
     padding: 10px;
     font-size: 60px;
-    text-shadow:
-    -1px -1px 0 #000, /* Top-left shadow */
-     1px -1px 0 #000, /* Top-right shadow */
-    -1px  1px 0 #000, /* Bottom-left shadow */
-     1px  1px 0 #000; /* Bottom-right shadow */
     animation-name: fadein;
     animation-duration: 1s;
+    filter: drop-shadow(10px 10px 7px #000);
 }
 input{
     width: 100%;
@@ -52,11 +48,7 @@ input{
     background: transparent;
     border: 0 none;
     color: whitesmoke;
-    text-shadow:
-    -1px -1px 0 #000, /* Top-left shadow */
-     1px -1px 0 #000, /* Top-right shadow */
-    -1px  1px 0 #000, /* Bottom-left shadow */
-     1px  1px 0 #000; /* Bottom-right shadow */
+    filter: drop-shadow(10px 10px 7px #000);
 }
 input:focus{
     outline: none;
