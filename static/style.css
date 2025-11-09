@@ -74,4 +74,13 @@ input:focus{
 input::placeholder{
     color: whitesmoke;
     opacity: 0.375;
+    transition: 0.375s ease-in-out;
+}
+input:hover::placeholder, input:focus::placeholder{
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left shadow */
+     1px -1px 0 #000, /* Top-right shadow */
+    -1px  1px 0 #000, /* Bottom-left shadow */
+     1px  1px 0 #000; /* Bottom-right shadow */
+    transition: 0.375s ease-in-out;
 }
