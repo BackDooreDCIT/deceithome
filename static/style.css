@@ -59,6 +59,7 @@ input{
     border: 0 none;
     color: whitesmoke;
     filter: drop-shadow(10px 10px 7px #000);
+    cursor: default;
 }
 input:focus{
     outline: none;
