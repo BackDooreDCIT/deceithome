@@ -33,6 +33,7 @@ body{
     }
 }
 .welcome{
+    display: flex;
     color: whitesmoke;
     padding: 10px;
     font-size: 60px;
@@ -40,8 +41,13 @@ body{
     animation-duration: 1s;
     filter: drop-shadow(10px 10px 7px #000);
     transition: 0.375s ease-in-out;
+    gap: 20px;
 }
-.welcome:hover{
+.welcome .welcomemsg, .welcome .username{
+    font-size: 60px;
+    transition: 0.375s ease-in-out;
+}
+.welcome .welcomemsg:hover, .welcome .username:hover{
     transition: 0.375s ease-in-out;
     text-shadow:
     -1px -1px 0 #000, /* Top-left shadow */
