@@ -37,8 +37,6 @@ body{
     color: whitesmoke;
     padding: 10px;
     font-size: 60px;
-    animation-name: fadein;
-    animation-duration: 1s;
     filter: drop-shadow(10px 10px 7px #000);
     transition: 0.375s ease-in-out;
     gap: 20px;
