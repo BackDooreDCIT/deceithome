@@ -5,20 +5,22 @@
 
   function isLikelyUrl(str) {
     if (!str) return false;
-    // has http://, https://, ftp://
-    if (/^[a-z][a-z0-9+.-]*:\/\//i.test(str)) return true;
-    // localhost[:port][/...]
-    if (/^localhost(?:\:\d+)?(?:[\/?#].*)?$/i.test(str)) return true;
-    // ipv4 with optional port/path
-    if (/^\d{1,3}(\.\d{1,3}){3}(?::\d+)?(?:[\/?#].*)?$/i.test(str)) return true;
-    // domain.tld[/...], no spaces
-    if (/^[\w-]+(\.[\w-]+)+(?::\d+)?(?:[\/?#].*)?$/i.test(str) && !/\s/.test(str)) return true;
+    if (/^[a-z][a-z0-9+.-]*:\/\//i.test(str)) return true;                 // scheme://
+    if (/^localhost(?:\:\d+)?(?:[\/?#].*)?$/i.test(str)) return true;      // localhost
+    if (/^\d{1,3}(\.\d{1,3}){3}(?::\d+)?(?:[\/?#].*)?$/i.test(str)) return true; // IPv4
+    if (/^[\w-]+(\.[\w-]+)+(?::\d+)?(?:[\/?#].*)?$/i.test(str) && !/\s/.test(str)) return true; // domain.tld
     return false;
   }
+  const hasScheme   = s => /^[a-z][a-z0-9+.-]*:\/\//i.test(s);
+  const normalizeUrl = s => hasScheme(s) ? s : 'https://' + s;
 
-  function normalizeUrl(str) {
-    return /^[a-z][a-z0-9+.-]*:\/\//i.test(str) ? str : 'https://' + str;
+  // add/remove style based on url detection
+  function updateInputStyle() {
+    const raw = (input.value || '').trim();
+    input.classList.toggle('is-url', isLikelyUrl(raw));
   }
+  input.addEventListener('input', updateInputStyle);
+  updateInputStyle();
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
