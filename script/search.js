@@ -1,4 +1,3 @@
-// smart-search.js
 (() => {
   const form  = document.querySelector('.search-container form');
   const input = document.getElementById('search-input');
