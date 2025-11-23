@@ -17,9 +17,9 @@ An example of what the page could be customized to.
 - [ ]  ~~Clock (Analog)~~
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar with URL Detection**
-- [ ]  Search Suggestion
-- [x]  **Shortcuts**
-- [x]  **Customizable Background**
+- [ ]  ~~Search Suggestion~~
+- [ ]  Shortcuts
+- [ ]  Customizable Background
 
 # Installation
 
