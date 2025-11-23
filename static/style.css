@@ -65,6 +65,7 @@ input{
     filter: drop-shadow(10px 10px 7px #000);
     cursor: default;
     font-weight: 200;
+    transition: 0.375s ease-in-out;
 }
 input:focus{
     outline: none;
@@ -77,4 +78,10 @@ input::placeholder{
 input:hover::placeholder, input:focus::placeholder{
     opacity: 1;
     transition: 0.175s ease-in-out;
+}
+#search-input.is-url {
+  color: #ffffff;
+  transition: 0.175s ease-in-out;
+  font-weight: 500;
+  font-style: italic;
 }
