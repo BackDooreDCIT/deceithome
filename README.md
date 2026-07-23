@@ -18,8 +18,9 @@ An example of what the page could be customized to.
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar with URL Detection**
 - [ ]  ~~Search Suggestion~~
-- [ ]  Shortcuts
+- [ ]  Shortcuts/Bookmarks
 - [ ]  Customizable Background
+- [ ]  Customizable Themes/Accent Colors
 
 # Installation
 
