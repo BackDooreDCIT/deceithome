@@ -13,13 +13,14 @@ An example of what the page could be customized to.
 **The extension will contain these features:**
 
 - [x]  **Clock (Digital)**
-- [ ]  ~~Clock (Analog)~~
+- [x]  **Clock (Analog)**
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar with URL Detection**
-- [ ]  ~~Search Suggestion~~
-- [ ]  Shortcuts/Bookmarks
-- [ ]  Customizable Background
-- [ ]  Customizable Themes/Accent Colors
+- [x]  **Search Focus Mode**
+- [x]  **Search Suggestion**
+- [x]  **Shortcuts** *(your own pinned tiles, not a bookmarks mirror)*
+- [x]  **Customizable Background**
+- [x]  **Customizable Themes/Accent Colors**
 
 # Installation
 

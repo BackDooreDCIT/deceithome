@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="static/base.css">
     <link rel="stylesheet" href="static/clock.css">
     <link rel="stylesheet" href="static/search.css">
+    <link rel="stylesheet" href="static/ui.css">
 </head>
 <body>
     <div id="backdrop-layer">
@@ -31,6 +32,21 @@
             </div>
             <div id="search-anchor"></div>
         </div>
+        <div id="sidebar">
+            <div id="sidebar-panel">
+                <ul id="tile-list"></ul>
+                <button type="button" id="tile-add" class="btn">+ Add shortcut</button>
+                <div id="tile-form" hidden>
+                    <input type="text" id="tile-name" class="ui-input" placeholder="Name" autocomplete="off">
+                    <input type="text" id="tile-url" class="ui-input" placeholder="https://example.com" autocomplete="off">
+                    <div class="panel-actions">
+                        <button type="button" class="btn" data-act="tile-save">Save</button>
+                        <button type="button" class="btn" data-act="tile-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <button id="sidebar-handle" type="button" title="Shortcuts">&#8942;</button>
+        </div>
     </div>
     <div id="search-layer">
         <div id="search-scrim"></div>
@@ -44,7 +60,290 @@
             <ul id="suggest-list" role="listbox" hidden></ul>
         </div>
     </div>
-    <div id="panel-layer"></div>
+    <div id="panel-layer">
+        <button id="panel-gear" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="settings-panel" title="Settings (Ctrl+,)">&#9881;</button>
+        <div id="panel-scrim"></div>
+        <div id="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-panel-title" hidden>
+            <div class="panel-header">
+                <h2 id="settings-panel-title">Settings</h2>
+                <button type="button" id="panel-close" data-act="close" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="panel-tabs" role="tablist">
+                <button type="button" class="panel-tab" data-tab="background" role="tab" aria-selected="true">Background</button>
+                <button type="button" class="panel-tab" data-tab="theme" role="tab" aria-selected="false">Theme</button>
+                <button type="button" class="panel-tab" data-tab="clock" role="tab" aria-selected="false">Clock</button>
+                <button type="button" class="panel-tab" data-tab="greeting" role="tab" aria-selected="false">Greeting</button>
+                <button type="button" class="panel-tab" data-tab="search" role="tab" aria-selected="false">Search</button>
+                <button type="button" class="panel-tab" data-tab="advanced" role="tab" aria-selected="false">Advanced</button>
+            </div>
+            <div class="panel-body">
+                <div class="panel-pane" data-pane="background">
+                    <div class="field">
+                        <label>Source</label>
+                        <div class="seg" role="group" aria-label="Background source">
+                            <button type="button" class="seg-btn" data-bg-kind="default">Default</button>
+                            <button type="button" class="seg-btn" data-bg-kind="image">Upload</button>
+                            <button type="button" class="seg-btn" data-bg-kind="url">URL</button>
+                            <button type="button" class="seg-btn" data-bg-kind="color">Color</button>
+                            <button type="button" class="seg-btn" data-bg-kind="gradient">Gradient</button>
+                        </div>
+                    </div>
+
+                    <div class="cond-pane" data-kind-pane="image">
+                        <div class="field">
+                            <label for="bg-upload">Upload an image</label>
+                            <input type="file" id="bg-upload" accept="image/*" data-act="bg-upload">
+                        </div>
+                    </div>
+
+                    <div class="cond-pane" data-kind-pane="url">
+                        <div class="field">
+                            <label for="bg-url">Image URL</label>
+                            <input type="url" id="bg-url" class="ui-input" placeholder="https://example.com/image.jpg" data-pref="background.url" autocomplete="off">
+                            <p class="field-error" id="bg-url-error"></p>
+                        </div>
+                    </div>
+
+                    <div class="cond-pane" data-kind-pane="color">
+                        <div class="field">
+                            <label for="bg-color">Color</label>
+                            <input type="color" id="bg-color" data-pref="background.color">
+                        </div>
+                    </div>
+
+                    <div class="cond-pane" data-kind-pane="gradient">
+                        <div class="field field-row">
+                            <label for="bg-grad-from">From</label>
+                            <input type="color" id="bg-grad-from" data-pref="background.gradient.from">
+                            <label for="bg-grad-to">To</label>
+                            <input type="color" id="bg-grad-to" data-pref="background.gradient.to">
+                        </div>
+                        <div class="field">
+                            <label for="bg-grad-angle">Angle</label>
+                            <div class="field-row">
+                                <input type="range" id="bg-grad-angle" min="0" max="360" step="1" data-pref="background.gradient.angle">
+                                <output data-output-for="bg-grad-angle" data-output-suffix="&deg;"></output>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="bg-blur">Blur</label>
+                        <div class="field-row">
+                            <input type="range" id="bg-blur" min="0" max="24" step="1" data-pref="background.blur">
+                            <output data-output-for="bg-blur" data-output-suffix="px"></output>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bg-dim">Dim</label>
+                        <div class="field-row">
+                            <input type="range" id="bg-dim" min="0" max="100" step="1" data-pref="background.dim">
+                            <output data-output-for="bg-dim" data-output-suffix="%"></output>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bg-size">Fit</label>
+                        <select id="bg-size" class="ui-input" data-pref="background.size">
+                            <option value="cover">Cover</option>
+                            <option value="contain">Contain</option>
+                        </select>
+                    </div>
+                    <div class="panel-actions">
+                        <button type="button" class="btn" data-act="bg-default">Restore default wallpaper</button>
+                    </div>
+                </div>
+
+                <div class="panel-pane" data-pane="theme" hidden>
+                    <div class="field">
+                        <label>Presets</label>
+                        <div class="swatch-grid">
+                            <button type="button" class="swatch" data-theme-preset="midnight" style="background:#1a1a1a" title="Midnight"></button>
+                            <button type="button" class="swatch" data-theme-preset="paper" style="background:#f1efe9" title="Paper"></button>
+                            <button type="button" class="swatch" data-theme-preset="nord" style="background:#2e3440" title="Nord"></button>
+                            <button type="button" class="swatch" data-theme-preset="rose" style="background:#1f1a1d" title="Rose"></button>
+                        </div>
+                    </div>
+                    <div class="field field-row">
+                        <label for="theme-bg">Background</label>
+                        <input type="color" id="theme-bg" data-pref="theme.bg">
+                        <label for="theme-fg">Text</label>
+                        <input type="color" id="theme-fg" data-pref="theme.fg">
+                    </div>
+                    <div class="field field-row">
+                        <label for="theme-accent">Accent</label>
+                        <input type="color" id="theme-accent" data-pref="theme.accent">
+                        <label for="theme-shadow">Shadow</label>
+                        <input type="color" id="theme-shadow" data-pref="theme.shadow">
+                    </div>
+                    <div class="field">
+                        <label for="theme-radius">Corner radius</label>
+                        <div class="field-row">
+                            <input type="range" id="theme-radius" min="0" max="32" step="1" data-pref="theme.radius">
+                            <output data-output-for="theme-radius" data-output-suffix="px"></output>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="theme-surface">Panel opacity</label>
+                        <div class="field-row">
+                            <input type="range" id="theme-surface" min="0" max="1" step="0.05" data-pref="theme.surfaceOpacity">
+                            <output data-output-for="theme-surface"></output>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-pane" data-pane="clock" hidden>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.enabled"> Show clock</label>
+                    </div>
+                    <div class="field">
+                        <label>Face</label>
+                        <div class="seg" role="group" aria-label="Clock face">
+                            <button type="button" class="seg-btn" data-clock-face="block">Blocks</button>
+                            <button type="button" class="seg-btn" data-clock-face="analog">Analog</button>
+                            <button type="button" class="seg-btn" data-clock-face="text">Digital</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.hour12"> 12-hour time</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.showSeconds"> Show seconds</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.smoothSeconds"> Smooth second hand (analog)</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.showDate"> Show date</label>
+                    </div>
+                    <div class="field">
+                        <label for="clock-date-format">Date style</label>
+                        <select id="clock-date-format" class="ui-input" data-pref="clock.dateFormat">
+                            <option value="short">Short</option>
+                            <option value="medium">Medium</option>
+                            <option value="long">Long</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="clock-scale">Size</label>
+                        <div class="field-row">
+                            <input type="range" id="clock-scale" min="0.6" max="3" step="0.05" data-pref="clock.scale">
+                            <output data-output-for="clock-scale" data-output-suffix="&times;"></output>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-pane" data-pane="greeting" hidden>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="greeting.enabled"> Show greeting</label>
+                    </div>
+                    <div class="field">
+                        <label for="greeting-name">Your name</label>
+                        <input type="text" id="greeting-name" class="ui-input" data-pref="greeting.name" autocomplete="off">
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="greeting.timeOfDay"> Use "Good morning/afternoon/evening"</label>
+                    </div>
+                    <div class="field">
+                        <label for="greeting-message">Message</label>
+                        <input type="text" id="greeting-message" class="ui-input" data-pref="greeting.message" autocomplete="off">
+                    </div>
+                    <div class="field">
+                        <label for="greeting-punct">Punctuation</label>
+                        <input type="text" id="greeting-punct" class="ui-input" maxlength="3" data-pref="greeting.punctuation" autocomplete="off">
+                    </div>
+                    <div class="field">
+                        <label for="greeting-size">Text size</label>
+                        <div class="field-row">
+                            <input type="range" id="greeting-size" min="20" max="120" step="1" data-pref="greeting.size">
+                            <output data-output-for="greeting-size" data-output-suffix="px"></output>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-pane" data-pane="search" hidden>
+                    <div class="field">
+                        <label for="search-engine">Search engine</label>
+                        <select id="search-engine" class="ui-input" data-pref="search.engine">
+                            <option value="google">Google</option>
+                            <option value="duckduckgo">DuckDuckGo</option>
+                            <option value="bing">Bing</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    <div class="cond-pane" data-engine-pane>
+                        <div class="field">
+                            <label for="search-custom-search-url">Search URL template</label>
+                            <input type="text" id="search-custom-search-url" class="ui-input" placeholder="https://example.com/search?q=%s" data-pref="search.customSearchUrl" autocomplete="off">
+                            <p class="field-error" id="search-custom-search-url-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="search-custom-suggest-url">Suggest URL template (optional)</label>
+                            <input type="text" id="search-custom-suggest-url" class="ui-input" placeholder="https://example.com/suggest?q=%s" data-pref="search.customSuggestUrl" autocomplete="off">
+                            <p class="field-error" id="search-custom-suggest-url-error"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="search.openInNewTab"> Open results in a new tab</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="search.focusMode"> Rise &amp; blur on focus</label>
+                    </div>
+                    <div class="field">
+                        <label for="search-focus-blur">Focus blur amount</label>
+                        <div class="field-row">
+                            <input type="range" id="search-focus-blur" min="0" max="24" step="1" data-pref="search.focusBlur">
+                            <output data-output-for="search-focus-blur" data-output-suffix="px"></output>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="search.suggest.enabled"> Show suggestions while typing</label>
+                    </div>
+                    <div class="field">
+                        <label>Suggestion sources</label>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-use-history"> Browsing history</label>
+                        </div>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-use-bookmarks"> Bookmarks</label>
+                        </div>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-use-topsites"> Top sites</label>
+                        </div>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-remote"> Remote engine completions</label>
+                        </div>
+                        <p class="field-error" id="suggest-perm-note"></p>
+                    </div>
+                </div>
+
+                <div class="panel-pane" data-pane="advanced" hidden>
+                    <div class="field">
+                        <label>Layout</label>
+                        <div class="seg" role="group" aria-label="Alignment">
+                            <button type="button" class="seg-btn" data-layout-align="left">Left</button>
+                            <button type="button" class="seg-btn" data-layout-align="center">Center</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="sidebar.enabled"> Enable shortcuts sidebar</label>
+                    </div>
+                    <div class="field">
+                        <label>Sidebar opens on</label>
+                        <div class="seg" role="group" aria-label="Sidebar opens on">
+                            <button type="button" class="seg-btn" data-sidebar-open-on="hover">Hover</button>
+                            <button type="button" class="seg-btn" data-sidebar-open-on="click">Click</button>
+                        </div>
+                    </div>
+                    <div class="panel-actions">
+                        <button type="button" class="btn" data-act="export">Export settings</button>
+                        <button type="button" class="btn" data-act="import-trigger">Import settings</button>
+                        <input type="file" id="import-file" accept="application/json" hidden data-act="import-file">
+                        <button type="button" class="btn btn-danger" data-act="reset-all">Reset everything</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="module" src="script/boot.js"></script>
 </body>
 </html>

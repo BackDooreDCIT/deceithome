@@ -7,8 +7,14 @@
     "chrome_url_overrides" : {
         "newtab" : "index.html"
     },
-    "permissions" : ["storage"],
+    "permissions" : ["storage", "favicon"],
+    "optional_permissions" : ["topSites", "history", "bookmarks"],
+    "optional_host_permissions" : [
+        "https://suggestqueries.google.com/*",
+        "https://duckduckgo.com/*",
+        "https://api.bing.com/*"
+    ],
     "content_security_policy" : {
-        "extension_pages" : "default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+        "extension_pages" : "default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://suggestqueries.google.com https://duckduckgo.com https://api.bing.com; frame-src 'none'; base-uri 'none'; form-action 'none'"
     }
 }

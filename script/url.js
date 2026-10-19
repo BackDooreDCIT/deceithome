@@ -9,6 +9,15 @@ export function isLikelyUrl(str) {
 
 export const hasScheme = (s) => /^[a-z][a-z0-9+.-]*:\/\//i.test(s);
 
+export function isHttpUrl(url) {
+  try {
+    const u = new URL(url);
+    return u.protocol === 'http:' || u.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
 export const normalizeUrl = (s) => (hasScheme(s) ? s : 'https://' + s);
 
 export function normalizeForDedupe(url) {

@@ -1,7 +1,10 @@
 import * as settings from './settings.js';
 import { applyAll } from './apply.js';
 import { init as initSearch } from './search.js';
+import { init as initSuggestView } from './suggest-view.js';
 import { init as initTypeahead } from './typeahead.js';
+import { init as initPanel } from './panel.js';
+import { init as initShortcuts } from './shortcuts.js';
 
 async function boot() {
   let state;
@@ -18,16 +21,16 @@ async function boot() {
   }
 
   initSearch();
+  initSuggestView();
   initTypeahead();
+  initPanel();
+  initShortcuts();
 
   settings.subscribe((next) => {
     try { applyAll(next); } catch { /* ignore a bad live update */ }
   });
 
   document.documentElement.classList.add('ready');
-
-  const input = document.getElementById('search-input');
-  if (input) input.focus({ preventScroll: true });
 }
 
 const readyFallback = setTimeout(() => {

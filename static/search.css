@@ -4,6 +4,13 @@
   visibility: hidden;
 }
 
+/* --fx-blur stays a live-interpolated property at all times (never added or
+   removed), since toggling the `filter` it drives would create/destroy a
+   containing block mid-animation and make #sidebar jump. */
+html.focus-mode {
+  --fx-blur: var(--search-focus-blur);
+}
+
 #search-dock {
   position: absolute;
   left: 50%;
@@ -64,11 +71,41 @@ html.focus-mode #search-scrim {
 
 #suggest-list {
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: 6px 0 0;
+  padding: 6px;
   max-height: var(--suggest-max-h);
   overflow-y: auto;
+  background-color: color-mix(in srgb, var(--color-surface) calc(var(--surface-opacity) * 100%), transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-align: left;
 }
 #suggest-list[hidden] {
   display: none;
+}
+
+.suggest-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: calc(var(--radius) / 2);
+}
+.suggest-row[aria-selected="true"] {
+  background: color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+.suggest-icon {
+  flex: 0 0 auto;
+  width: 1.2em;
+  text-align: center;
+  opacity: 0.6;
+}
+.suggest-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
