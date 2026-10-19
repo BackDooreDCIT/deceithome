@@ -1,79 +1,83 @@
-// Build the 60 blocks + divider in the DOM first (so nth-child indices match)
-const clockEl = document.getElementById('clock');
-for (let i = 0; i < 60; i++) {
-  const b = document.createElement('div');
-  b.className = 'block';
-  b.setAttribute('data-num', i);
-  clockEl.appendChild(b);
-}
-const divider = document.createElement('div');
-divider.className = 'divider';
-clockEl.appendChild(divider);
+import faceBlock from './clock/face-block.js';
 
-// Digit patterns (4 groups × 15 blocks each)
-const numbers = [
-  [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1], // 0
-  [1,0,0,0,1,1,1,1,1,1,0,0,0,0,1], // 1
-  [1,0,1,1,1,1,0,1,0,1,1,1,1,0,1], // 2
-  [1,0,1,0,1,1,0,1,0,1,1,1,1,1,1], // 3
-  [1,1,1,0,0,0,0,1,0,0,1,1,1,1,1], // 4
-  [1,1,1,0,1,1,0,1,0,1,1,0,1,1,1], // 5
-  [1,1,1,1,1,1,0,1,0,1,1,0,1,1,1], // 6
-  [1,0,0,0,0,1,0,1,1,1,1,1,0,0,0], // 7
-  [1,1,1,1,1,1,0,1,0,1,1,1,1,1,1], // 8
-  [1,1,1,0,1,1,0,1,0,1,1,1,1,1,1]  // 9
-];
+const FACES = { block: faceBlock };
 
-const digits = Array.from(document.querySelectorAll('.block'));
-const blocks = [];
-for (let i = 0; i < 4; i++) {
-  blocks.push(digits.slice(i * 15, i * 15 + 15));
+let current = null;
+let opts = { hour12: false, showSeconds: true, showDate: false, dateFormat: 'medium', smoothSeconds: true };
+let rafId = null;
+let running = false;
+let lastKey = '';
+let faceEl = null;
+let wrapEl = null;
+let metaEl = null;
+
+function ensureEls() {
+  if (!faceEl) faceEl = document.getElementById('clock-face');
+  if (!wrapEl) wrapEl = document.querySelector('.clock-wrap');
+  if (!metaEl) metaEl = document.getElementById('clock-meta');
 }
 
-const setNum = (block, num) => {
-  const n = numbers[Number(num)];
-  for (let i = 0; i < block.length; i++) {
-    block[i].classList[n[i] === 1 ? 'add' : 'remove']('active');
+function renderMeta(d) {
+  if (!metaEl) return;
+  if (!opts.showDate) {
+    metaEl.textContent = '';
+    return;
   }
-};
+  metaEl.textContent = new Intl.DateTimeFormat(undefined, { dateStyle: opts.dateFormat }).format(d);
+}
 
-const time = { s: '', m: '', h: '', p: null };
-
-const animator = () => {
+function tick() {
+  rafId = requestAnimationFrame(tick);
+  if (!current) return;
   const d = new Date();
-  let h = d.getHours().toString();
-  let m = d.getMinutes().toString();
-  let s = d.getSeconds().toString();
-
-  if (s.length === 1) s = '0' + s;
-  if (m.length === 1) m = '0' + m;
-  if (h.length === 1) h = '0' + h;
-
-  // Orange "second" marker on the corresponding block index (0..59)
-  if (s !== time.s) {
-    const idx = Number(s);
-    if (time.p !== null) digits[time.p].classList.remove('second');
-    digits[idx].classList.add('second');
-    time.p = idx;
-    time.s = s;
+  if (!(current.wantsRaf && opts.smoothSeconds)) {
+    const key = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+    if (key === lastKey) return;
+    lastKey = key;
   }
+  current.update(d, opts);
+  renderMeta(d);
+}
 
-  // Minutes
-  if (m !== time.m) {
-    setNum(blocks[2], m[0]);
-    setNum(blocks[3], m[1]);
-    time.m = m;
+export function setFace(id) {
+  ensureEls();
+  if (!faceEl || !wrapEl) return;
+  const next = FACES[id] || FACES.block;
+  if (current && current.id === next.id) return;
+  stop();
+  if (current) current.unmount();
+  faceEl.replaceChildren();
+  faceEl.className = `clock-face clock-face--${next.id}`;
+  const { w, h } = next.mount(faceEl, opts);
+  wrapEl.style.setProperty('--clock-w', `${w}px`);
+  wrapEl.style.setProperty('--clock-h', `${h}px`);
+  current = next;
+  lastKey = '';
+  start();
+}
+
+export function setOpts(nextOpts) {
+  opts = { ...opts, ...nextOpts };
+  lastKey = '';
+  if (current) current.update(new Date(), opts);
+  renderMeta(new Date());
+}
+
+export function start() {
+  if (running) return;
+  running = true;
+  rafId = requestAnimationFrame(tick);
+}
+
+export function stop() {
+  running = false;
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
   }
+}
 
-  // Hours
-  if (h !== time.h) {
-    setNum(blocks[0], h[0]);
-    setNum(blocks[1], h[1]);
-    time.h = h;
-  }
-
-  window.requestAnimationFrame(animator);
-};
-
-// Kick off
-window.requestAnimationFrame(animator);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) stop();
+  else if (current) start();
+});
