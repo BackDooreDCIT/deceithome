@@ -17,7 +17,7 @@ An example of what the page could be customized to.
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar with URL Detection**
 - [x]  **Search Focus Mode**
-- [ ]  ~~Search Suggestion~~
+- [x]  **Search Suggestion**
 - [ ]  Shortcuts/Bookmarks
 - [x]  **Customizable Background**
 - [x]  **Customizable Themes/Accent Colors**
