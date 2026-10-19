@@ -1,0 +1,104 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  visibility: hidden;
+}
+html.ready {
+  visibility: visible;
+  animation: fadein var(--fx-duration) var(--fx-ease) both;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  inline-size: 100%;
+  block-size: 100dvh;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  font-family: var(--font-sans);
+}
+
+/* Layer 1: background image/color/gradient, always blurred */
+#backdrop-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--bg-image);
+  background-color: var(--bg-color);
+  background-position: center;
+  background-size: var(--bg-size);
+  filter: blur(calc(var(--bg-blur) + var(--fx-blur)));
+}
+#backdrop-dim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-shadow);
+  opacity: var(--bg-dim);
+}
+
+/* Layer 2: clock/greeting/sidebar — its own fixed containing block so a
+   position:fixed sidebar inside it still measures against the viewport */
+#blur-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  filter: blur(var(--fx-blur));
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: var(--page-pad-block) var(--page-pad-inline);
+}
+html.align-center .main-content {
+  align-items: center;
+  text-align: center;
+}
+
+/* Layer 3: the search dock, never blurred */
+#search-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* Layer 4: settings overlay, never blurred */
+#panel-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.welcome {
+  display: flex;
+  color: var(--color-fg);
+  padding: 10px;
+  font-size: var(--greeting-size);
+  filter: var(--fx-drop);
+  transition: var(--fx-duration) var(--fx-ease);
+  gap: var(--greeting-gap);
+}
+.main-content.greeting-hidden .welcome {
+  display: none;
+}
+.welcome .welcomemsg,
+.welcome .username {
+  font-size: var(--greeting-size);
+  transition: var(--fx-duration) var(--fx-ease);
+}
+.welcome .welcomemsg:hover,
+.welcome .username:hover {
+  transition: var(--fx-duration-fast) var(--fx-ease);
+  text-shadow: var(--fx-outline);
+  cursor: default;
+}
