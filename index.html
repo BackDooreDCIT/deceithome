@@ -4,32 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Tab</title>
-    <link rel="icon" href="icons/favico.icon" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="static/clock.css">
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/tokens.css">
+    <link rel="stylesheet" href="static/base.css">
+    <link rel="stylesheet" href="static/clock.css">
+    <link rel="stylesheet" href="static/search.css">
 </head>
 <body>
-    <div class="background-img"></div>
-    <div class="main-content">
-        <div class="clock" id="clock"></div>
-        <div class="welcome">
-            <h1 class="welcomemsg">Welcome,</h1>
-            <h1 class="username">guest.</h1>
-        </div>
-        <div class="search-container">
-            <form action="https://www.google.com/search" method="GET" target="_self">
-                <input type="text" name="q" autofocus autocomplete="off" id="search-input" placeholder="Type to search.."/>
-            </form>
+    <div id="backdrop-layer">
+        <div id="backdrop-dim"></div>
+    </div>
+    <div id="blur-layer">
+        <div class="main-content">
+            <div class="clock-wrap">
+                <div class="clock">
+                    <div id="clock-face" class="clock-face"></div>
+                    <div id="clock-meta"></div>
+                </div>
+            </div>
+            <div class="welcome">
+                <h1 class="welcomemsg">Welcome,</h1>
+                <h1 class="username">guest.</h1>
+            </div>
+            <div id="search-anchor"></div>
         </div>
     </div>
-    <script src="script/clock.js"></script>
-    <script src="script/jquery-3.7.1.min.js"></script>
-    <script src="script/keyboardfocus.js"></script>
-    <script src="script/search.js"></script>
+    <div id="search-layer">
+        <div id="search-scrim"></div>
+        <div id="search-dock">
+            <form id="search-form" autocomplete="off">
+                <input type="text" name="q" autocomplete="off" id="search-input"
+                       placeholder="Type to search.."
+                       role="combobox" aria-expanded="false" aria-controls="suggest-list"
+                       aria-autocomplete="list">
+            </form>
+            <ul id="suggest-list" role="listbox" hidden></ul>
+        </div>
+    </div>
+    <div id="panel-layer"></div>
+    <script type="module" src="script/boot.js"></script>
 </body>
 </html>
