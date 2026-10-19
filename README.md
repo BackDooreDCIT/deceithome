@@ -18,8 +18,8 @@ An example of what the page could be customized to.
 - [x]  **Working Search Bar with URL Detection**
 - [ ]  ~~Search Suggestion~~
 - [ ]  Shortcuts/Bookmarks
-- [ ]  Customizable Background
-- [ ]  Customizable Themes/Accent Colors
+- [x]  **Customizable Background**
+- [x]  **Customizable Themes/Accent Colors**
 
 # Installation
 
