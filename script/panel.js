@@ -53,6 +53,21 @@ function syncThemePreset(preset) {
   $all('[data-theme-preset]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themePreset === preset)));
 }
 
+function syncSearchEngineVisibility(engine) {
+  $all('[data-engine-pane]').forEach((p) => p.classList.toggle('is-active', engine === 'custom'));
+}
+
+function validateSearchTemplate(tpl) {
+  if (!tpl) return '';
+  if (!tpl.includes('%s')) return 'Must contain %s where the query goes.';
+  try {
+    if (new URL(tpl.replace('%s', 'x')).protocol !== 'https:') return 'Must use https://.';
+  } catch {
+    return 'Enter a valid URL.';
+  }
+  return '';
+}
+
 function refreshFromState(state) {
   $all('[data-pref]', panelEl).forEach((el) => {
     const value = deepGet(state.prefs, el.dataset.pref);
@@ -64,6 +79,7 @@ function refreshFromState(state) {
   syncLayoutAlign(state.prefs.layout.align);
   syncThemePreset(state.prefs.theme.preset);
   syncClockFace(state.prefs.clock.face);
+  syncSearchEngineVisibility(state.prefs.search.engine);
 }
 
 function onControlInput(e) {
@@ -71,11 +87,17 @@ function onControlInput(e) {
   if (!el.matches('[data-pref]')) return;
   if (el.id === 'bg-url') return; // handled separately, with a load-check before committing
   const path = el.dataset.pref;
-  settings.setPref(path, coerceValue(el));
+  const value = coerceValue(el);
+  settings.setPref(path, value);
   if (el.type === 'range') updateOutput(el);
   if (path.startsWith('theme.') && path !== 'theme.preset') {
     settings.setPref('theme.preset', 'custom');
     syncThemePreset('custom');
+  }
+  if (path === 'search.engine') syncSearchEngineVisibility(value);
+  if (el.id === 'search-custom-search-url' || el.id === 'search-custom-suggest-url') {
+    const errorEl = document.getElementById(`${el.id}-error`);
+    if (errorEl) errorEl.textContent = validateSearchTemplate(value.trim());
   }
 }
 

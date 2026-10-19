@@ -255,9 +255,9 @@ input[type="file"] {
   flex-wrap: wrap;
 }
 
-.bg-kind-pane {
+.cond-pane {
   display: none;
 }
-.bg-kind-pane.is-active {
+.cond-pane.is-active {
   display: block;
 }

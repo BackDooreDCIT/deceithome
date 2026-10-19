@@ -58,6 +58,7 @@
                 <button type="button" class="panel-tab" data-tab="theme" role="tab" aria-selected="false">Theme</button>
                 <button type="button" class="panel-tab" data-tab="clock" role="tab" aria-selected="false">Clock</button>
                 <button type="button" class="panel-tab" data-tab="greeting" role="tab" aria-selected="false">Greeting</button>
+                <button type="button" class="panel-tab" data-tab="search" role="tab" aria-selected="false">Search</button>
                 <button type="button" class="panel-tab" data-tab="advanced" role="tab" aria-selected="false">Advanced</button>
             </div>
             <div class="panel-body">
@@ -73,14 +74,14 @@
                         </div>
                     </div>
 
-                    <div class="bg-kind-pane" data-kind-pane="image">
+                    <div class="cond-pane" data-kind-pane="image">
                         <div class="field">
                             <label for="bg-upload">Upload an image</label>
                             <input type="file" id="bg-upload" accept="image/*" data-act="bg-upload">
                         </div>
                     </div>
 
-                    <div class="bg-kind-pane" data-kind-pane="url">
+                    <div class="cond-pane" data-kind-pane="url">
                         <div class="field">
                             <label for="bg-url">Image URL</label>
                             <input type="url" id="bg-url" class="ui-input" placeholder="https://example.com/image.jpg" data-pref="background.url" autocomplete="off">
@@ -88,14 +89,14 @@
                         </div>
                     </div>
 
-                    <div class="bg-kind-pane" data-kind-pane="color">
+                    <div class="cond-pane" data-kind-pane="color">
                         <div class="field">
                             <label for="bg-color">Color</label>
                             <input type="color" id="bg-color" data-pref="background.color">
                         </div>
                     </div>
 
-                    <div class="bg-kind-pane" data-kind-pane="gradient">
+                    <div class="cond-pane" data-kind-pane="gradient">
                         <div class="field field-row">
                             <label for="bg-grad-from">From</label>
                             <input type="color" id="bg-grad-from" data-pref="background.gradient.from">
@@ -244,6 +245,43 @@
                     </div>
                 </div>
 
+                <div class="panel-pane" data-pane="search" hidden>
+                    <div class="field">
+                        <label for="search-engine">Search engine</label>
+                        <select id="search-engine" class="ui-input" data-pref="search.engine">
+                            <option value="google">Google</option>
+                            <option value="duckduckgo">DuckDuckGo</option>
+                            <option value="bing">Bing</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    <div class="cond-pane" data-engine-pane>
+                        <div class="field">
+                            <label for="search-custom-search-url">Search URL template</label>
+                            <input type="text" id="search-custom-search-url" class="ui-input" placeholder="https://example.com/search?q=%s" data-pref="search.customSearchUrl" autocomplete="off">
+                            <p class="field-error" id="search-custom-search-url-error"></p>
+                        </div>
+                        <div class="field">
+                            <label for="search-custom-suggest-url">Suggest URL template (optional)</label>
+                            <input type="text" id="search-custom-suggest-url" class="ui-input" placeholder="https://example.com/suggest?q=%s" data-pref="search.customSuggestUrl" autocomplete="off">
+                            <p class="field-error" id="search-custom-suggest-url-error"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="search.openInNewTab"> Open results in a new tab</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="search.focusMode"> Rise &amp; blur on focus</label>
+                    </div>
+                    <div class="field">
+                        <label for="search-focus-blur">Focus blur amount</label>
+                        <div class="field-row">
+                            <input type="range" id="search-focus-blur" min="0" max="24" step="1" data-pref="search.focusBlur">
+                            <output data-output-for="search-focus-blur" data-output-suffix="px"></output>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel-pane" data-pane="advanced" hidden>
                     <div class="field">
                         <label>Layout</label>
@@ -254,9 +292,6 @@
                     </div>
                     <div class="field">
                         <label class="switch"><input type="checkbox" data-pref="sidebar.enabled"> Enable shortcuts sidebar</label>
-                    </div>
-                    <div class="field">
-                        <label class="switch"><input type="checkbox" data-pref="search.openInNewTab"> Open results in a new tab</label>
                     </div>
                     <div class="panel-actions">
                         <button type="button" class="btn" data-act="export">Export settings</button>
