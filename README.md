@@ -18,7 +18,7 @@ An example of what the page could be customized to.
 - [x]  **Working Search Bar with URL Detection**
 - [x]  **Search Focus Mode**
 - [x]  **Search Suggestion**
-- [ ]  Shortcuts/Bookmarks
+- [x]  **Shortcuts** *(your own pinned tiles, not a bookmarks mirror)*
 - [x]  **Customizable Background**
 - [x]  **Customizable Themes/Accent Colors**
 
