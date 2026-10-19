@@ -4,6 +4,13 @@
   visibility: hidden;
 }
 
+/* --fx-blur stays a live-interpolated property at all times (never added or
+   removed), since toggling the `filter` it drives would create/destroy a
+   containing block mid-animation and make #sidebar jump. */
+html.focus-mode {
+  --fx-blur: var(--search-focus-blur);
+}
+
 #search-dock {
   position: absolute;
   left: 50%;

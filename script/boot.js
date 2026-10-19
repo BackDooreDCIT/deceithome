@@ -27,9 +27,6 @@ async function boot() {
   });
 
   document.documentElement.classList.add('ready');
-
-  const input = document.getElementById('search-input');
-  if (input) input.focus({ preventScroll: true });
 }
 
 const readyFallback = setTimeout(() => {
