@@ -1,6 +1,7 @@
 import * as settings from './settings.js';
 import { applyAll } from './apply.js';
 import { init as initSearch } from './search.js';
+import { init as initSuggestView } from './suggest-view.js';
 import { init as initTypeahead } from './typeahead.js';
 import { init as initPanel } from './panel.js';
 
@@ -19,6 +20,7 @@ async function boot() {
   }
 
   initSearch();
+  initSuggestView();
   initTypeahead();
   initPanel();
 

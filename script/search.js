@@ -31,7 +31,7 @@ function updateInputStyle() {
   input.classList.toggle('is-url', isLikelyUrl(raw));
 }
 
-function navigate(href, newTab) {
+export function navigate(href, newTab) {
   if (newTab) window.open(href, '_blank', 'noopener');
   else window.location.assign(href);
 }
