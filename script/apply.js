@@ -1,19 +1,11 @@
 import { clamp } from './dom.js';
+import { isHttpUrl } from './url.js';
 import { setFace, setOpts, start, stop } from './clock.js';
 
 const DEFAULT_IMG = "url('../img/default.jpg')";
 
 function cssEscapeUrl(str) {
   return String(str).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-}
-
-function isHttpUrl(url) {
-  try {
-    const u = new URL(url);
-    return u.protocol === 'http:' || u.protocol === 'https:';
-  } catch {
-    return false;
-  }
 }
 
 function timeOfDayMessage() {
