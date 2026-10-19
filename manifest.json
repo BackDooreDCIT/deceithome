@@ -9,6 +9,6 @@
     },
     "permissions" : ["storage"],
     "content_security_policy" : {
-        "extension_pages" : "default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+        "extension_pages" : "default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'none'; base-uri 'none'; form-action 'none'"
     }
 }
