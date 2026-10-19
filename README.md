@@ -13,7 +13,7 @@ An example of what the page could be customized to.
 **The extension will contain these features:**
 
 - [x]  **Clock (Digital)**
-- [ ]  ~~Clock (Analog)~~
+- [x]  **Clock (Analog)**
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar with URL Detection**
 - [ ]  ~~Search Suggestion~~
