@@ -1,0 +1,84 @@
+:root {
+  /* Fonts */
+  --font-sans: "Lexend", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+
+  /* Theme */
+  --color-bg: #1a1a1a;
+  --color-fg: #f5f5f5;
+  --color-fg-strong: #ffffff;
+  --color-accent: #ecb7ff;
+  --color-shadow: #000000;
+  --color-surface: color-mix(in srgb, var(--color-bg) 85%, white 15%);
+  --color-border: color-mix(in srgb, var(--color-fg) 20%, transparent);
+  --color-muted: color-mix(in srgb, var(--color-fg) 60%, var(--color-bg) 40%);
+  --radius: 12px;
+  --surface-opacity: 0.72;
+
+  /* Effects */
+  --fx-drop: drop-shadow(10px 10px 7px var(--color-shadow));
+  --fx-outline:
+    -1px -1px 0 var(--color-shadow),
+     1px -1px 0 var(--color-shadow),
+    -1px  1px 0 var(--color-shadow),
+     1px  1px 0 var(--color-shadow);
+  --fx-duration: 0.375s;
+  --fx-duration-fast: 0.175s;
+  --fx-ease: ease-in-out;
+  --fx-blur: 0px;
+
+  /* Background */
+  --bg-image: url('../img/default.jpg');
+  --bg-color: #1a1a1a;
+  --bg-blur: 5px;
+  --bg-dim: 0;
+  --bg-size: cover;
+
+  /* Search */
+  --search-focus-blur: 6px;
+  --search-rest-y: 0px;
+  --search-focus-y: 12vh;
+  --search-w: min(560px, 90vw);
+  --search-font: 25px;
+  --suggest-max-h: 320px;
+  --placeholder-opacity: 0.375;
+
+  /* Clock */
+  --clock-scale: 1.35;
+  --clock-w: 280px;
+  --clock-h: 100px;
+  --clock-row-h: 20px;
+  --clock-digit-size: 16px;
+  --clock-gap-digit: 10px;
+  --clock-gap-group: 20px;
+  --clock-divider-offset: 19px;
+  --clock-second-color: var(--color-accent);
+  --clock-analog-size: 200px;
+  --clock-hand-h: 50px;
+  --clock-hand-m: 70px;
+  --clock-hand-s: 80px;
+  --clock-text-size: 48px;
+
+  /* Greeting */
+  --greeting-size: 60px;
+  --greeting-gap: 20px;
+
+  /* Layout */
+  --page-pad-block: 110px;
+  --page-pad-inline: 100px;
+  --sidebar-w: 240px;
+  --sidebar-peek: 10px;
+  --tile-icon: 32px;
+  --panel-w: 420px;
+
+  /* Non-themable anti-lockout chrome (never exposed to the theme panel) */
+  --ui-chrome-fg: #ffffff;
+  --ui-chrome-bg: rgba(0, 0, 0, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --fx-duration: 1ms;
+    --fx-duration-fast: 1ms;
+  }
+}

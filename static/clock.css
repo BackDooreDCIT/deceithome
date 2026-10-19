@@ -1,75 +1,85 @@
-/* Base */
-* { box-sizing: border-box; }
-
-body {
-  font-family: "lexend", sans-serif;
+.clock-wrap {
+  inline-size: calc(var(--clock-w) * var(--clock-scale));
+  block-size: calc(var(--clock-h) * var(--clock-scale));
+  flex: 0 0 auto;
 }
+html.clock-hidden .clock-wrap {
+  display: none;
+}
+
 .clock {
-  position: static;       /* or keep it static/relative if using flex/grid */
-  left: 40px;
-  top: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+#clock-face {
   display: flex;
   flex-flow: column wrap;
-  width: 280px;
-  height: 100px;
-  /* optional: scale control */
-  transform: scale(var(--clock-scale, 1.35));
+  inline-size: var(--clock-w);
+  block-size: var(--clock-h);
+  transform: scale(var(--clock-scale));
   transform-origin: top left;
 }
-.clock .block {
+
+#clock-meta {
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  opacity: 0.8;
+}
+#clock-meta:empty {
+  display: none;
+}
+
+/* Block face — these elements are built at runtime by clock/face-block.js.
+   #clock-face's only children are ever the 60 .block divs + the trailing
+   .divider; nothing else may be appended there, or the nth-child math below
+   (which keys digit gaps and leading zeros off raw child index) breaks. */
+.clock-face--block .block {
   width: calc(100% / 12);
   height: 20%;
   color: transparent;
-  transition: 0.2s;
+  transition: var(--fx-duration-fast) ease;
   position: relative;
 }
-.clock .block:not(:nth-child(n + 16)):nth-child(n + 11),
-.clock .block:not(:nth-child(n + 46)):nth-child(n + 41) {
-  margin-right: 10px;
+.clock-face--block .block:not(:nth-child(n + 16)):nth-child(n + 11),
+.clock-face--block .block:not(:nth-child(n + 46)):nth-child(n + 41) {
+  margin-right: var(--clock-gap-digit);
 }
-.clock .block:not(:nth-child(n + 31)):nth-child(n + 26) {
-  margin-right: 20px;
+.clock-face--block .block:not(:nth-child(n + 31)):nth-child(n + 26) {
+  margin-right: var(--clock-gap-group);
 }
-/* Number labels */
-.clock .block::before {
+.clock-face--block .block::before {
   content: attr(data-num);
   position: relative;
   display: block;
-  font-size: 16px;
+  font-size: var(--clock-digit-size);
   width: 100%;
   height: 100%;
-  line-height: 20px;
+  line-height: var(--clock-row-h);
   text-align: center;
-  transition: 0.175s ease-in-out;
+  transition: var(--fx-duration-fast) var(--fx-ease);
 }
-/* Leading zero for 0–9 */
-.clock .block:nth-child(-n + 10)::before {
+.clock-face--block .block:nth-child(-n + 10)::before {
   content: "0" attr(data-num);
 }
-/* Active digits (hours/minutes) */
-.clock .block.active::before {
-  color: whitesmoke;
+.clock-face--block .block.active::before {
+  color: var(--color-fg);
   font-weight: bolder;
-  transition: 0.175s ease-in-out;
-  filter: drop-shadow(10px 10px 7px #000);
+  transition: var(--fx-duration-fast) var(--fx-ease);
+  filter: var(--fx-drop);
 }
-/* Second indicator (orange) */
-.clock .block.second::before {
-  color: #ecb7ff;
-  transition: 0.175s ease-in-out;
-  text-shadow:
-    -1px -1px 0 #000, /* Top-left shadow */
-     1px -1px 0 #000, /* Top-right shadow */
-    -1px  1px 0 #000, /* Bottom-left shadow */
-     1px  1px 0 #000; /* Bottom-right shadow */
-  filter: drop-shadow(10px 10px 7px #000);
+.clock-face--block .block.second::before {
+  color: var(--clock-second-color);
+  transition: var(--fx-duration-fast) var(--fx-ease);
+  text-shadow: var(--fx-outline);
+  filter: var(--fx-drop);
 }
-/* Divider */
-.clock .divider {
+.clock-face--block .divider {
   position: absolute;
   width: 2px;
-  background-color: whitesmoke;
+  background-color: var(--color-fg);
   height: 60%;
   top: 20%;
-  left: calc(50% + 19px);
+  left: calc(50% + var(--clock-divider-offset));
 }
