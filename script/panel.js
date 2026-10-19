@@ -53,6 +53,10 @@ function syncLayoutAlign(align) {
   $all('[data-layout-align]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layoutAlign === align)));
 }
 
+function syncSidebarOpenOn(openOn) {
+  $all('[data-sidebar-open-on]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.sidebarOpenOn === openOn)));
+}
+
 function syncClockFace(face) {
   $all('[data-clock-face]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.clockFace === face)));
 }
@@ -138,6 +142,7 @@ function refreshFromState(state) {
   syncThemePreset(state.prefs.theme.preset);
   syncClockFace(state.prefs.clock.face);
   syncSearchEngineVisibility(state.prefs.search.engine);
+  syncSidebarOpenOn(state.prefs.sidebar.openOn);
   refreshPermCheckboxes(state.prefs);
 }
 
@@ -278,6 +283,13 @@ function onPanelClick(e) {
   if (align) {
     settings.setPref('layout.align', align.dataset.layoutAlign);
     syncLayoutAlign(align.dataset.layoutAlign);
+    return;
+  }
+
+  const sidebarOpenOn = e.target.closest('[data-sidebar-open-on]');
+  if (sidebarOpenOn) {
+    settings.setPref('sidebar.openOn', sidebarOpenOn.dataset.sidebarOpenOn);
+    syncSidebarOpenOn(sidebarOpenOn.dataset.sidebarOpenOn);
     return;
   }
 

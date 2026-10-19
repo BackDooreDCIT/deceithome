@@ -32,6 +32,21 @@
             </div>
             <div id="search-anchor"></div>
         </div>
+        <div id="sidebar">
+            <div id="sidebar-panel">
+                <ul id="tile-list"></ul>
+                <button type="button" id="tile-add" class="btn">+ Add shortcut</button>
+                <div id="tile-form" hidden>
+                    <input type="text" id="tile-name" class="ui-input" placeholder="Name" autocomplete="off">
+                    <input type="text" id="tile-url" class="ui-input" placeholder="https://example.com" autocomplete="off">
+                    <div class="panel-actions">
+                        <button type="button" class="btn" data-act="tile-save">Save</button>
+                        <button type="button" class="btn" data-act="tile-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <button id="sidebar-handle" type="button" title="Shortcuts">&#8942;</button>
+        </div>
     </div>
     <div id="search-layer">
         <div id="search-scrim"></div>
@@ -311,6 +326,13 @@
                     </div>
                     <div class="field">
                         <label class="switch"><input type="checkbox" data-pref="sidebar.enabled"> Enable shortcuts sidebar</label>
+                    </div>
+                    <div class="field">
+                        <label>Sidebar opens on</label>
+                        <div class="seg" role="group" aria-label="Sidebar opens on">
+                            <button type="button" class="seg-btn" data-sidebar-open-on="hover">Hover</button>
+                            <button type="button" class="seg-btn" data-sidebar-open-on="click">Click</button>
+                        </div>
                     </div>
                     <div class="panel-actions">
                         <button type="button" class="btn" data-act="export">Export settings</button>
