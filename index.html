@@ -56,6 +56,7 @@
             <div class="panel-tabs" role="tablist">
                 <button type="button" class="panel-tab" data-tab="background" role="tab" aria-selected="true">Background</button>
                 <button type="button" class="panel-tab" data-tab="theme" role="tab" aria-selected="false">Theme</button>
+                <button type="button" class="panel-tab" data-tab="clock" role="tab" aria-selected="false">Clock</button>
                 <button type="button" class="panel-tab" data-tab="greeting" role="tab" aria-selected="false">Greeting</button>
                 <button type="button" class="panel-tab" data-tab="advanced" role="tab" aria-selected="false">Advanced</button>
             </div>
@@ -170,6 +171,47 @@
                         <div class="field-row">
                             <input type="range" id="theme-surface" min="0" max="1" step="0.05" data-pref="theme.surfaceOpacity">
                             <output data-output-for="theme-surface"></output>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-pane" data-pane="clock" hidden>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.enabled"> Show clock</label>
+                    </div>
+                    <div class="field">
+                        <label>Face</label>
+                        <div class="seg" role="group" aria-label="Clock face">
+                            <button type="button" class="seg-btn" data-clock-face="block">Blocks</button>
+                            <button type="button" class="seg-btn" data-clock-face="analog">Analog</button>
+                            <button type="button" class="seg-btn" data-clock-face="text">Digital</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.hour12"> 12-hour time</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.showSeconds"> Show seconds</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.smoothSeconds"> Smooth second hand (analog)</label>
+                    </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="clock.showDate"> Show date</label>
+                    </div>
+                    <div class="field">
+                        <label for="clock-date-format">Date style</label>
+                        <select id="clock-date-format" class="ui-input" data-pref="clock.dateFormat">
+                            <option value="short">Short</option>
+                            <option value="medium">Medium</option>
+                            <option value="long">Long</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="clock-scale">Size</label>
+                        <div class="field-row">
+                            <input type="range" id="clock-scale" min="0.6" max="3" step="0.05" data-pref="clock.scale">
+                            <output data-output-for="clock-scale" data-output-suffix="&times;"></output>
                         </div>
                     </div>
                 </div>

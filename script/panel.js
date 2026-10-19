@@ -45,6 +45,10 @@ function syncLayoutAlign(align) {
   $all('[data-layout-align]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layoutAlign === align)));
 }
 
+function syncClockFace(face) {
+  $all('[data-clock-face]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.clockFace === face)));
+}
+
 function syncThemePreset(preset) {
   $all('[data-theme-preset]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themePreset === preset)));
 }
@@ -59,6 +63,7 @@ function refreshFromState(state) {
   syncBgKindVisibility(state.prefs.background.kind);
   syncLayoutAlign(state.prefs.layout.align);
   syncThemePreset(state.prefs.theme.preset);
+  syncClockFace(state.prefs.clock.face);
 }
 
 function onControlInput(e) {
@@ -188,6 +193,13 @@ function onPanelClick(e) {
   if (align) {
     settings.setPref('layout.align', align.dataset.layoutAlign);
     syncLayoutAlign(align.dataset.layoutAlign);
+    return;
+  }
+
+  const clockFace = e.target.closest('[data-clock-face]');
+  if (clockFace) {
+    settings.setPref('clock.face', clockFace.dataset.clockFace);
+    syncClockFace(clockFace.dataset.clockFace);
     return;
   }
 
