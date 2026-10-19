@@ -2,6 +2,7 @@ import * as settings from './settings.js';
 import { applyAll } from './apply.js';
 import { init as initSearch } from './search.js';
 import { init as initTypeahead } from './typeahead.js';
+import { init as initPanel } from './panel.js';
 
 async function boot() {
   let state;
@@ -19,6 +20,7 @@ async function boot() {
 
   initSearch();
   initTypeahead();
+  initPanel();
 
   settings.subscribe((next) => {
     try { applyAll(next); } catch { /* ignore a bad live update */ }
