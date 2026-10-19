@@ -2,8 +2,16 @@ import * as settings from './settings.js';
 import { deepGet, debounce } from './dom.js';
 import { isHttpUrl } from './url.js';
 import { THEME_PRESETS } from './presets.js';
+import * as perms from './permissions.js';
+import { ENGINES } from './engines.js';
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+const PERM_CHECKBOXES = {
+  'suggest-use-history': { permission: 'history', path: 'search.suggest.useHistory' },
+  'suggest-use-bookmarks': { permission: 'bookmarks', path: 'search.suggest.useBookmarks' },
+  'suggest-use-topsites': { permission: 'topSites', path: 'search.suggest.useTopSites' }
+};
 
 let panelEl = null;
 let gearEl = null;
@@ -68,6 +76,56 @@ function validateSearchTemplate(tpl) {
   return '';
 }
 
+function showPermNote(msg) {
+  const el = document.getElementById('suggest-perm-note');
+  if (el) el.textContent = msg;
+}
+
+async function refreshPermCheckboxes(prefs) {
+  for (const [id, cfg] of Object.entries(PERM_CHECKBOXES)) {
+    const el = document.getElementById(id);
+    if (!el || document.activeElement === el) continue;
+    const granted = await perms.has(cfg.permission);
+    el.checked = granted && !!deepGet(prefs, cfg.path);
+  }
+  const remoteEl = document.getElementById('suggest-remote');
+  if (remoteEl && document.activeElement !== remoteEl) {
+    remoteEl.checked = !!prefs.search.suggest.remote;
+  }
+}
+
+async function onPermCheckbox(el) {
+  const cfg = PERM_CHECKBOXES[el.id];
+  if (cfg) {
+    if (el.checked) {
+      const granted = await perms.request([cfg.permission]);
+      el.checked = granted;
+      settings.setPref(cfg.path, granted);
+      if (!granted) showPermNote(`Permission wasn't granted; that source stays off.`);
+      else showPermNote('');
+    } else {
+      await perms.revoke([cfg.permission]);
+      settings.setPref(cfg.path, false);
+    }
+    return true;
+  }
+  if (el.id === 'suggest-remote') {
+    if (el.checked) {
+      const { prefs } = settings.get();
+      const origin = ENGINES[prefs.search.engine]?.origin;
+      const granted = origin ? await perms.request([], [origin]) : true;
+      el.checked = granted;
+      settings.setPref('search.suggest.remote', granted);
+      if (!granted) showPermNote(`Access wasn't granted; remote completions stay off.`);
+      else showPermNote('');
+    } else {
+      settings.setPref('search.suggest.remote', false);
+    }
+    return true;
+  }
+  return false;
+}
+
 function refreshFromState(state) {
   $all('[data-pref]', panelEl).forEach((el) => {
     const value = deepGet(state.prefs, el.dataset.pref);
@@ -80,6 +138,7 @@ function refreshFromState(state) {
   syncThemePreset(state.prefs.theme.preset);
   syncClockFace(state.prefs.clock.face);
   syncSearchEngineVisibility(state.prefs.search.engine);
+  refreshPermCheckboxes(state.prefs);
 }
 
 function onControlInput(e) {
@@ -176,6 +235,10 @@ async function handleImportFile(file) {
 
 function onPanelChange(e) {
   const el = e.target;
+  if (el.id in PERM_CHECKBOXES || el.id === 'suggest-remote') {
+    onPermCheckbox(el);
+    return;
+  }
   if (el.matches('[data-act="bg-upload"]')) {
     const file = el.files[0];
     el.value = '';

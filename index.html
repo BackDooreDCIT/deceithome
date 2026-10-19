@@ -280,6 +280,25 @@
                             <output data-output-for="search-focus-blur" data-output-suffix="px"></output>
                         </div>
                     </div>
+                    <div class="field">
+                        <label class="switch"><input type="checkbox" data-pref="search.suggest.enabled"> Show suggestions while typing</label>
+                    </div>
+                    <div class="field">
+                        <label>Suggestion sources</label>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-use-history"> Browsing history</label>
+                        </div>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-use-bookmarks"> Bookmarks</label>
+                        </div>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-use-topsites"> Top sites</label>
+                        </div>
+                        <div class="field">
+                            <label class="switch"><input type="checkbox" id="suggest-remote"> Remote engine completions</label>
+                        </div>
+                        <p class="field-error" id="suggest-perm-note"></p>
+                    </div>
                 </div>
 
                 <div class="panel-pane" data-pane="advanced" hidden>
