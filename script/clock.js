@@ -1,6 +1,8 @@
 import faceBlock from './clock/face-block.js';
+import faceAnalog from './clock/face-analog.js';
+import faceText from './clock/face-text.js';
 
-const FACES = { block: faceBlock };
+const FACES = { block: faceBlock, analog: faceAnalog, text: faceText };
 
 let current = null;
 let opts = { hour12: false, showSeconds: true, showDate: false, dateFormat: 'medium', smoothSeconds: true };
@@ -19,11 +21,16 @@ function ensureEls() {
 
 function renderMeta(d) {
   if (!metaEl) return;
-  if (!opts.showDate) {
-    metaEl.textContent = '';
-    return;
+  const parts = [];
+  // The text face's own Intl formatter already prints AM/PM; showing it again
+  // here would read as "02:30:15 PM PM".
+  if (opts.hour12 && (!current || current.id !== 'text')) {
+    parts.push(d.getHours() < 12 ? 'AM' : 'PM');
   }
-  metaEl.textContent = new Intl.DateTimeFormat(undefined, { dateStyle: opts.dateFormat }).format(d);
+  if (opts.showDate) {
+    parts.push(new Intl.DateTimeFormat(undefined, { dateStyle: opts.dateFormat }).format(d));
+  }
+  metaEl.textContent = parts.join(' · ');
 }
 
 function tick() {
