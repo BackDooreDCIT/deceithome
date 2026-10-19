@@ -16,6 +16,7 @@ An example of what the page could be customized to.
 - [x]  **Clock (Analog)**
 - [x]  **Welcome Message**
 - [x]  **Working Search Bar with URL Detection**
+- [x]  **Search Focus Mode**
 - [ ]  ~~Search Suggestion~~
 - [ ]  Shortcuts/Bookmarks
 - [x]  **Customizable Background**
