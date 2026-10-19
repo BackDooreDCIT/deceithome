@@ -7,7 +7,7 @@
     "chrome_url_overrides" : {
         "newtab" : "index.html"
     },
-    "permissions" : ["storage"],
+    "permissions" : ["storage", "favicon"],
     "optional_permissions" : ["topSites", "history", "bookmarks"],
     "optional_host_permissions" : [
         "https://suggestqueries.google.com/*",
