@@ -1,4 +1,4 @@
-import { clamp } from './dom.js';
+import { clamp, luminance } from './dom.js';
 import { isHttpUrl } from './url.js';
 import { setFace, setOpts, start, stop } from './clock.js';
 import { remeasure } from './search.js';
@@ -27,6 +27,7 @@ export function applyTheme(prefs) {
   root.style.setProperty('--color-shadow', t.shadow);
   root.style.setProperty('--radius', `${t.radius}px`);
   root.style.setProperty('--surface-opacity', String(clamp(t.surfaceOpacity, 0, 1)));
+  root.style.setProperty('color-scheme', luminance(t.bg) > 0.5 ? 'light' : 'dark');
 }
 
 export function applyBackground(state) {
