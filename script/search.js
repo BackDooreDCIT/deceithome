@@ -10,10 +10,12 @@ let input = null;
 let bootPhase = true;
 let anchorObserver = null;
 
-function measureAnchor() {
-  if (!anchor || document.documentElement.classList.contains('focus-mode')) return;
+export function remeasure() {
+  if (!anchor || !dock || document.documentElement.classList.contains('focus-mode')) return;
   const rect = anchor.getBoundingClientRect();
-  document.documentElement.style.setProperty('--search-rest-y', `${Math.round(rect.top)}px`);
+  const maxY = window.innerHeight - (dock.offsetHeight || 0) - 24;
+  const y = Math.max(0, Math.min(Math.round(rect.top), maxY));
+  document.documentElement.style.setProperty('--search-rest-y', `${y}px`);
 }
 
 function enter() {
@@ -23,7 +25,7 @@ function enter() {
 
 function exit() {
   document.documentElement.classList.remove('focus-mode');
-  measureAnchor();
+  remeasure();
 }
 
 function updateInputStyle() {
@@ -52,10 +54,10 @@ export function init() {
   input = document.getElementById('search-input');
   if (!anchor || !dock || !scrim || !form || !input) return;
 
-  measureAnchor();
-  anchorObserver = new ResizeObserver(measureAnchor);
+  remeasure();
+  anchorObserver = new ResizeObserver(remeasure);
   anchorObserver.observe(anchor);
-  window.addEventListener('resize', measureAnchor);
+  window.addEventListener('resize', remeasure);
 
   input.addEventListener('input', updateInputStyle);
   updateInputStyle();
