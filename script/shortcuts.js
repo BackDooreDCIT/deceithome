@@ -8,7 +8,12 @@ let listEl = null;
 let formEl = null;
 let nameInput = null;
 let urlInput = null;
+let handle = null;
+let chevronEl = null;
+
 let editingId = null;
+let pinned = false;
+let hovering = false;
 
 function hostnameOf(url) {
   try {
@@ -100,6 +105,7 @@ function renderTile(tile) {
 function render() {
   const { tiles } = settings.get();
   listEl.replaceChildren();
+  sidebarEl.classList.toggle('is-empty', tiles.length === 0);
   if (!tiles.length) {
     const empty = document.createElement('li');
     empty.className = 'tile-empty';
@@ -187,6 +193,12 @@ function syncPrefs(sidebarPrefs) {
   sidebarEl.classList.toggle('click-mode', sidebarPrefs.openOn === 'click');
 }
 
+function refreshHandleState() {
+  const expanded = pinned || (hovering && !sidebarEl.classList.contains('click-mode'));
+  handle.setAttribute('aria-expanded', String(expanded));
+  chevronEl.textContent = expanded ? '›' : '‹';
+}
+
 export function init() {
   sidebarEl = document.getElementById('sidebar');
   listEl = document.getElementById('tile-list');
@@ -194,10 +206,11 @@ export function init() {
   nameInput = document.getElementById('tile-name');
   urlInput = document.getElementById('tile-url');
   const addBtn = document.getElementById('tile-add');
-  const handle = document.getElementById('sidebar-handle');
+  handle = document.getElementById('sidebar-handle');
+  chevronEl = document.getElementById('sidebar-handle-chevron');
   const saveBtn = formEl?.querySelector('[data-act="tile-save"]');
   const cancelBtn = formEl?.querySelector('[data-act="tile-cancel"]');
-  if (!sidebarEl || !listEl || !formEl || !nameInput || !urlInput || !addBtn || !handle || !saveBtn || !cancelBtn) return;
+  if (!sidebarEl || !listEl || !formEl || !nameInput || !urlInput || !addBtn || !handle || !chevronEl || !saveBtn || !cancelBtn) return;
 
   render();
   settings.subscribe((state, paths) => {
@@ -220,8 +233,13 @@ export function init() {
   });
 
   handle.addEventListener('click', () => {
-    if (sidebarEl.classList.contains('click-mode')) sidebarEl.classList.toggle('expanded');
+    pinned = !pinned;
+    sidebarEl.classList.toggle('expanded', pinned);
+    refreshHandleState();
   });
+  sidebarEl.addEventListener('mouseenter', () => { hovering = true; refreshHandleState(); });
+  sidebarEl.addEventListener('mouseleave', () => { hovering = false; refreshHandleState(); });
 
   syncPrefs(settings.get().prefs.sidebar);
+  refreshHandleState();
 }
