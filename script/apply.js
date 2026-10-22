@@ -103,6 +103,7 @@ export function applyClockVars(prefs) {
 export function applyFit(prefs) {
   const root = document.documentElement;
   const main = document.querySelector('.main-content');
+  const meta = document.getElementById('clock-meta');
   const welcome = document.querySelector('.welcome');
   const anchor = document.getElementById('search-anchor');
   const wrap = document.querySelector('.clock-wrap');
@@ -118,8 +119,12 @@ export function applyFit(prefs) {
   const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
   const avail = main.clientHeight - padY;
 
+  // #clock-meta is :empty { display: none } when there's nothing to show
+  // (no date, no 12-hour AM/PM), so its offsetHeight is already 0 then —
+  // no separate guard needed.
+  const metaH = meta ? meta.offsetHeight : 0;
   const greetH = prefs.greeting.enabled && welcome ? welcome.offsetHeight : 0;
-  const room = avail - greetH - anchor.offsetHeight - FIT_MIN_GAP;
+  const room = avail - metaH - greetH - anchor.offsetHeight - FIT_MIN_GAP;
 
   const natural = wrap ? parseFloat(getComputedStyle(wrap).getPropertyValue('--clock-h')) || 100 : 100;
   const maxScale = Math.max(0.6, room / natural);

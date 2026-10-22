@@ -27,6 +27,8 @@ html.clock-hidden .clock-wrap {
   font-family: var(--font-mono);
   font-size: 14px;
   opacity: 0.8;
+  margin-block-start: var(--clock-meta-gap);
+  padding-inline: 2px;
 }
 #clock-meta:empty {
   display: none;
@@ -37,7 +39,7 @@ html.clock-hidden .clock-wrap {
    .divider; nothing else may be appended there, or the nth-child math below
    (which keys digit gaps and leading zeros off raw child index) breaks. */
 .clock-face--block .block {
-  width: calc(100% / 12);
+  width: calc(var(--clock-grid-w) / 12);
   height: 20%;
   color: transparent;
   transition: var(--fx-duration-fast) ease;

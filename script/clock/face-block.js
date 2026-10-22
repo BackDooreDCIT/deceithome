@@ -44,7 +44,11 @@ function mount(root) {
   blocks = [digits.slice(0, 15), digits.slice(15, 30), digits.slice(30, 45), digits.slice(45, 60)];
   state = { h: '', m: '', s: '', secondIdx: null };
 
-  return { w: 280, h: 100 };
+  // 320 = --clock-grid-w (280, twelve 23.33px columns) + --clock-gaps-w
+  // (the 10+20+10 of inter-digit margin clock.css's gap rules add on top
+  // of the grid) — the box must match what actually gets painted or
+  // centering (and the hour/minute divider's position) drifts.
+  return { w: 320, h: 100 };
 }
 
 function update(d, opts) {
