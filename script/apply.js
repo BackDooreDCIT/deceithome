@@ -89,7 +89,8 @@ export function applyClockVars(prefs) {
     showSeconds: c.showSeconds,
     showDate: c.showDate,
     dateFormat: c.dateFormat,
-    smoothSeconds: c.smoothSeconds
+    smoothSeconds: c.smoothSeconds,
+    timeZone: c.timeZone
   });
   if (c.enabled) start();
   else stop();

@@ -32,7 +32,8 @@ export const DEFAULT_PREFS = {
     dateFormat: 'medium',
     scale: 1.35,
     smoothSeconds: true,
-    enabled: true
+    enabled: true,
+    timeZone: ''
   },
   greeting: {
     enabled: true,

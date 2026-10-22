@@ -4,6 +4,7 @@ import { isHttpUrl } from './url.js';
 import { THEME_PRESETS } from './presets.js';
 import * as perms from './permissions.js';
 import { ENGINES } from './engines.js';
+import { zoneList } from './time.js';
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -379,11 +380,25 @@ function closePanel() {
   (lastFocused || gearEl).focus({ preventScroll: true });
 }
 
+function populateTimezones() {
+  const list = document.getElementById('tz-list');
+  if (!list) return;
+  const frag = document.createDocumentFragment();
+  for (const zone of zoneList()) {
+    const opt = document.createElement('option');
+    opt.value = zone;
+    frag.appendChild(opt);
+  }
+  list.appendChild(frag);
+}
+
 export function init() {
   panelEl = document.getElementById('settings-panel');
   gearEl = document.getElementById('panel-gear');
   scrimEl = document.getElementById('panel-scrim');
   if (!panelEl || !gearEl || !scrimEl) return;
+
+  populateTimezones();
 
   panelEl.addEventListener('input', onControlInput);
   panelEl.addEventListener('change', onPanelChange);

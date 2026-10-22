@@ -2,15 +2,24 @@ let el = null;
 let formatter = null;
 let formatterKey = '';
 
+function buildFormatter(opts, timeZone) {
+  return new Intl.DateTimeFormat(undefined, {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: opts.showSeconds ? '2-digit' : undefined,
+    hour12: opts.hour12,
+    timeZone
+  });
+}
+
 function getFormatter(opts) {
-  const key = `${opts.hour12 ? '12' : '24'}|${opts.showSeconds ? 's' : ''}`;
+  const key = `${opts.hour12 ? '12' : '24'}|${opts.showSeconds ? 's' : ''}|${opts.timeZone || ''}`;
   if (key !== formatterKey) {
-    formatter = new Intl.DateTimeFormat(undefined, {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: opts.showSeconds ? '2-digit' : undefined,
-      hour12: opts.hour12
-    });
+    try {
+      formatter = buildFormatter(opts, opts.timeZone || undefined);
+    } catch {
+      formatter = buildFormatter(opts, undefined); // invalid/removed zone -> system, silently
+    }
     formatterKey = key;
   }
   return formatter;
