@@ -147,7 +147,7 @@ function migrate(raw) {
 const state = {
   prefs: structuredClone(DEFAULT_PREFS),
   tiles: structuredClone(DEFAULT_TILES),
-  local: { bgImage: null, bgImageMeta: null, topSitesCache: null }
+  local: { bgImage: null, bgImageMeta: null, topSitesCache: null, tileIcons: {} }
 };
 
 const subscribers = new Set();
@@ -199,6 +199,10 @@ function wireCrossTabSync() {
       state.local.bgImage = changes.bgImage.newValue ?? null;
       notify(['local.bgImage']);
     }
+    if (area === 'local' && changes.tileIcons) {
+      state.local.tileIcons = changes.tileIcons.newValue ?? {};
+      notify(['local.tileIcons']);
+    }
   });
 }
 
@@ -229,10 +233,11 @@ export async function init() {
   state.tiles = Array.isArray(rawTiles) ? rawTiles : structuredClone(DEFAULT_TILES);
 
   try {
-    const local = await chrome.storage.local.get(['bgImage', 'bgImageMeta', 'topSitesCache']);
+    const local = await chrome.storage.local.get(['bgImage', 'bgImageMeta', 'topSitesCache', 'tileIcons']);
     state.local.bgImage = local.bgImage ?? null;
     state.local.bgImageMeta = local.bgImageMeta ?? null;
     state.local.topSitesCache = local.topSitesCache ?? null;
+    state.local.tileIcons = local.tileIcons ?? {};
   } catch { /* keep in-memory defaults */ }
 
   if (isFirstRun) {
@@ -287,7 +292,7 @@ export async function flush() {
 export async function resetAll() {
   state.prefs = structuredClone(DEFAULT_PREFS);
   state.tiles = structuredClone(DEFAULT_TILES);
-  state.local = { bgImage: null, bgImageMeta: null, topSitesCache: null };
+  state.local = { bgImage: null, bgImageMeta: null, topSitesCache: null, tileIcons: {} };
   notify(['*']);
   await flush();
 }

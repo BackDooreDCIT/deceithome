@@ -1,5 +1,5 @@
 import * as settings from './settings.js';
-import { deepGet, debounce } from './dom.js';
+import { deepGet, debounce, downscaleToDataUrl } from './dom.js';
 import { isHttpUrl } from './url.js';
 import { THEME_PRESETS, FONT_SANS, FONT_MONO } from './presets.js';
 import * as perms from './permissions.js';
@@ -194,22 +194,8 @@ const debouncedCheckBgUrl = debounce((raw) => checkBgUrl(raw), 400);
 
 async function handleBgUpload(file) {
   try {
-    const bitmap = await createImageBitmap(file);
-    const maxEdge = 2560;
-    const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-    const w = Math.max(1, Math.round(bitmap.width * scale));
-    const h = Math.max(1, Math.round(bitmap.height * scale));
-    const canvas = new OffscreenCanvas(w, h);
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(bitmap, 0, 0, w, h);
-    const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.82 });
-    const dataUrl = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-    settings.setLocal({ bgImage: dataUrl, bgImageMeta: { width: w, height: h, size: blob.size } });
+    const { dataUrl, width, height, size } = await downscaleToDataUrl(file, 2560);
+    settings.setLocal({ bgImage: dataUrl, bgImageMeta: { width, height, size } });
     settings.setPref('background.kind', 'image');
     syncBgKindVisibility('image');
   } catch {

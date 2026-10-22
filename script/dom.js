@@ -74,6 +74,24 @@ export function hashColor(str, buckets = 12) {
   return Math.abs(h) % buckets;
 }
 
+export async function downscaleToDataUrl(file, maxEdge, quality = 0.82) {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
+  const w = Math.max(1, Math.round(bitmap.width * scale));
+  const h = Math.max(1, Math.round(bitmap.height * scale));
+  const canvas = new OffscreenCanvas(w, h);
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(bitmap, 0, 0, w, h);
+  const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality });
+  const dataUrl = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+  return { dataUrl, width: w, height: h, size: blob.size };
+}
+
 // sRGB relative luminance, 0 (black) .. 1 (white).
 export function luminance(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex).trim());

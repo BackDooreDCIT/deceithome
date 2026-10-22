@@ -37,6 +37,24 @@
                 <div id="tile-form" hidden>
                     <input type="text" id="tile-name" class="ui-input" placeholder="Name" autocomplete="off">
                     <input type="text" id="tile-url" class="ui-input" placeholder="https://example.com" autocomplete="off">
+                    <div class="field">
+                        <label>Icon</label>
+                        <div class="seg" role="group" aria-label="Icon source">
+                            <button type="button" class="seg-btn" data-tile-icon-kind="auto">Auto</button>
+                            <button type="button" class="seg-btn" data-tile-icon-kind="emoji">Emoji</button>
+                            <button type="button" class="seg-btn" data-tile-icon-kind="url">URL</button>
+                            <button type="button" class="seg-btn" data-tile-icon-kind="upload">Upload</button>
+                        </div>
+                    </div>
+                    <div class="cond-pane" data-icon-kind-pane="emoji">
+                        <input type="text" id="tile-icon-emoji" class="ui-input" placeholder="&#x1f680;" maxlength="4" autocomplete="off">
+                    </div>
+                    <div class="cond-pane" data-icon-kind-pane="url">
+                        <input type="text" id="tile-icon-url" class="ui-input" placeholder="https://example.com/icon.png" autocomplete="off">
+                    </div>
+                    <div class="cond-pane" data-icon-kind-pane="upload">
+                        <input type="file" id="tile-icon-upload" accept="image/*">
+                    </div>
                     <div class="panel-actions">
                         <button type="button" class="btn" data-act="tile-save">Save</button>
                         <button type="button" class="btn" data-act="tile-cancel">Cancel</button>
