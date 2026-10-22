@@ -326,25 +326,51 @@ input[type="file"] {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 #sidebar:not(.click-mode):hover #sidebar-panel,
-#sidebar.click-mode.expanded #sidebar-panel {
+#sidebar.expanded #sidebar-panel {
   width: var(--sidebar-w);
 }
 
+/* A centred pill tab, not a 70vh-tall sliver: align-self opts out of
+   #sidebar's align-items:stretch, and block-size gives it a real height.
+   Rounded on the left (the side touching open space) — its right edge sits
+   flush against the viewport edge, where rounding would be invisible. */
 #sidebar-handle {
   flex: 0 0 var(--sidebar-peek);
-  background: color-mix(in srgb, var(--color-fg) 15%, transparent);
-  border: none;
+  align-self: center;
+  block-size: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: var(--color-surface-solid);
+  border-style: solid;
+  border-width: 1px 0 1px 1px;
+  border-color: var(--color-border);
   color: var(--color-fg);
   cursor: pointer;
-  writing-mode: vertical-rl;
-  letter-spacing: 2px;
-  font-size: 12px;
-  opacity: 0.7;
-  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 14px;
+  opacity: 0.85;
+  border-radius: var(--radius) 0 0 var(--radius);
+  transition: opacity var(--fx-duration-fast) var(--fx-ease);
 }
 #sidebar:hover #sidebar-handle,
 #sidebar.expanded #sidebar-handle {
   opacity: 1;
+}
+.sidebar-handle-label {
+  display: none;
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+#sidebar.is-empty .sidebar-handle-label {
+  display: block;
+}
+.sidebar-handle-chevron {
+  font-size: 16px;
+  line-height: 1;
 }
 
 #tile-list {
@@ -406,6 +432,15 @@ input[type="file"] {
   font-size: 13px;
   font-weight: 600;
 }
+.tile-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: calc(var(--tile-icon) * 0.65);
+  line-height: 1;
+}
 .tile-label {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -416,6 +451,12 @@ input[type="file"] {
   display: flex;
   gap: 2px;
   flex: 0 0 auto;
+  opacity: 0;
+  transition: opacity var(--fx-duration-fast) var(--fx-ease);
+}
+.tile:hover .tile-actions,
+.tile:focus-within .tile-actions {
+  opacity: 1;
 }
 .tile-actions button {
   background: transparent;

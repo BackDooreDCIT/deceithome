@@ -21,11 +21,9 @@
     <div id="blur-layer">
         <div class="main-content">
             <div class="clock-wrap">
-                <div class="clock">
-                    <div id="clock-face" class="clock-face"></div>
-                    <div id="clock-meta"></div>
-                </div>
+                <div class="clock"><div id="clock-face" class="clock-face"></div></div>
             </div>
+            <div id="clock-meta"></div>
             <div class="welcome">
                 <h1 class="welcomemsg">Welcome,</h1>
                 <h1 class="username">guest.</h1>
@@ -39,13 +37,34 @@
                 <div id="tile-form" hidden>
                     <input type="text" id="tile-name" class="ui-input" placeholder="Name" autocomplete="off">
                     <input type="text" id="tile-url" class="ui-input" placeholder="https://example.com" autocomplete="off">
+                    <div class="field">
+                        <label>Icon</label>
+                        <div class="seg" role="group" aria-label="Icon source">
+                            <button type="button" class="seg-btn" data-tile-icon-kind="auto">Auto</button>
+                            <button type="button" class="seg-btn" data-tile-icon-kind="emoji">Emoji</button>
+                            <button type="button" class="seg-btn" data-tile-icon-kind="url">URL</button>
+                            <button type="button" class="seg-btn" data-tile-icon-kind="upload">Upload</button>
+                        </div>
+                    </div>
+                    <div class="cond-pane" data-icon-kind-pane="emoji">
+                        <input type="text" id="tile-icon-emoji" class="ui-input" placeholder="&#x1f680;" maxlength="4" autocomplete="off">
+                    </div>
+                    <div class="cond-pane" data-icon-kind-pane="url">
+                        <input type="text" id="tile-icon-url" class="ui-input" placeholder="https://example.com/icon.png" autocomplete="off">
+                    </div>
+                    <div class="cond-pane" data-icon-kind-pane="upload">
+                        <input type="file" id="tile-icon-upload" accept="image/*">
+                    </div>
                     <div class="panel-actions">
                         <button type="button" class="btn" data-act="tile-save">Save</button>
                         <button type="button" class="btn" data-act="tile-cancel">Cancel</button>
                     </div>
                 </div>
             </div>
-            <button id="sidebar-handle" type="button" title="Shortcuts">&#8942;</button>
+            <button id="sidebar-handle" type="button" title="Shortcuts" aria-expanded="false" aria-controls="sidebar-panel">
+                <span id="sidebar-handle-label" class="sidebar-handle-label">Shortcuts</span>
+                <span id="sidebar-handle-chevron" class="sidebar-handle-chevron" aria-hidden="true">&#8249;</span>
+            </button>
         </div>
     </div>
     <div id="search-layer">
@@ -187,6 +206,14 @@
                             <output data-output-for="theme-surface"></output>
                         </div>
                     </div>
+                    <div class="field">
+                        <label for="theme-font-sans">Text font</label>
+                        <select id="theme-font-sans" class="ui-input" data-pref="theme.fontSans"></select>
+                    </div>
+                    <div class="field">
+                        <label for="theme-font-mono">Monospace font</label>
+                        <select id="theme-font-mono" class="ui-input" data-pref="theme.fontMono"></select>
+                    </div>
                 </div>
 
                 <div class="panel-pane" data-pane="clock" hidden>
@@ -227,6 +254,12 @@
                             <input type="range" id="clock-scale" min="0.6" max="3" step="0.05" data-pref="clock.scale">
                             <output data-output-for="clock-scale" data-output-suffix="&times;"></output>
                         </div>
+                    </div>
+                    <div class="field">
+                        <label for="clock-timezone">Timezone</label>
+                        <input class="ui-input" id="clock-timezone" list="tz-list" data-pref="clock.timeZone"
+                               placeholder="System default" autocomplete="off">
+                        <datalist id="tz-list"></datalist>
                     </div>
                 </div>
 

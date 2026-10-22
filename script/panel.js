@@ -1,9 +1,10 @@
 import * as settings from './settings.js';
-import { deepGet, debounce } from './dom.js';
+import { deepGet, debounce, downscaleToDataUrl } from './dom.js';
 import { isHttpUrl } from './url.js';
-import { THEME_PRESETS } from './presets.js';
+import { THEME_PRESETS, FONT_SANS, FONT_MONO } from './presets.js';
 import * as perms from './permissions.js';
 import { ENGINES } from './engines.js';
+import { zoneList } from './time.js';
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -193,22 +194,8 @@ const debouncedCheckBgUrl = debounce((raw) => checkBgUrl(raw), 400);
 
 async function handleBgUpload(file) {
   try {
-    const bitmap = await createImageBitmap(file);
-    const maxEdge = 2560;
-    const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-    const w = Math.max(1, Math.round(bitmap.width * scale));
-    const h = Math.max(1, Math.round(bitmap.height * scale));
-    const canvas = new OffscreenCanvas(w, h);
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(bitmap, 0, 0, w, h);
-    const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.82 });
-    const dataUrl = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-    settings.setLocal({ bgImage: dataUrl, bgImageMeta: { width: w, height: h, size: blob.size } });
+    const { dataUrl, width, height, size } = await downscaleToDataUrl(file, 2560);
+    settings.setLocal({ bgImage: dataUrl, bgImageMeta: { width, height, size } });
     settings.setPref('background.kind', 'image');
     syncBgKindVisibility('image');
   } catch {
@@ -379,11 +366,38 @@ function closePanel() {
   (lastFocused || gearEl).focus({ preventScroll: true });
 }
 
+function populateOptions(selectEl, map) {
+  if (!selectEl) return;
+  selectEl.replaceChildren();
+  for (const name of Object.keys(map)) {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    selectEl.appendChild(opt);
+  }
+}
+
+function populateTimezones() {
+  const list = document.getElementById('tz-list');
+  if (!list) return;
+  const frag = document.createDocumentFragment();
+  for (const zone of zoneList()) {
+    const opt = document.createElement('option');
+    opt.value = zone;
+    frag.appendChild(opt);
+  }
+  list.appendChild(frag);
+}
+
 export function init() {
   panelEl = document.getElementById('settings-panel');
   gearEl = document.getElementById('panel-gear');
   scrimEl = document.getElementById('panel-scrim');
   if (!panelEl || !gearEl || !scrimEl) return;
+
+  populateOptions(document.getElementById('theme-font-sans'), FONT_SANS);
+  populateOptions(document.getElementById('theme-font-mono'), FONT_MONO);
+  populateTimezones();
 
   panelEl.addEventListener('input', onControlInput);
   panelEl.addEventListener('change', onPanelChange);

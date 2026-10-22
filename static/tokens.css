@@ -19,7 +19,7 @@
   --surface-opacity: 0.72;
 
   /* Effects */
-  --fx-drop: drop-shadow(10px 10px 7px var(--color-shadow));
+  --fx-drop: drop-shadow(0 8px 10px var(--color-shadow));
   --fx-outline:
     -1px -1px 0 var(--color-shadow),
      1px -1px 0 var(--color-shadow),
@@ -48,19 +48,22 @@
 
   /* Clock */
   --clock-scale: 1.35;
-  --clock-w: 280px;
+  --clock-grid-w: 280px;
   --clock-h: 100px;
   --clock-row-h: 20px;
   --clock-digit-size: 16px;
   --clock-gap-digit: 10px;
   --clock-gap-group: 20px;
-  --clock-divider-offset: 19px;
+  --clock-gaps-w: calc(var(--clock-gap-digit) * 2 + var(--clock-gap-group));
+  --clock-w: calc(var(--clock-grid-w) + var(--clock-gaps-w));
+  --clock-divider-offset: 0px;
   --clock-second-color: var(--color-accent);
   --clock-analog-size: 200px;
   --clock-hand-h: 50px;
   --clock-hand-m: 70px;
   --clock-hand-s: 80px;
   --clock-text-size: 48px;
+  --clock-meta-gap: 10px;
 
   /* Greeting */
   --greeting-size: 60px;
@@ -71,7 +74,7 @@
   --page-pad-inline: 100px;
   --page-pad-bottom: 32px;
   --sidebar-w: 240px;
-  --sidebar-peek: 10px;
+  --sidebar-peek: 28px;
   --tile-icon: 32px;
   --panel-w: 420px;
 

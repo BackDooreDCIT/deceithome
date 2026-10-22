@@ -51,11 +51,11 @@ function mount(root) {
   return { w: 200, h: 200 };
 }
 
-function update(d, opts) {
-  const ms = d.getMilliseconds();
-  const s = d.getSeconds();
-  const m = d.getMinutes();
-  const h = d.getHours() % 12;
+function update(d, opts, parts) {
+  const ms = parts.ms;
+  const s = parts.s;
+  const m = parts.m;
+  const h = parts.h % 12;
 
   const secDeg = opts.smoothSeconds ? (s + ms / 1000) * 6 : s * 6;
   const minDeg = m * 6 + (opts.smoothSeconds ? (s / 60) * 6 : 0);
