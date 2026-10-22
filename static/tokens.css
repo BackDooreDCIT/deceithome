@@ -19,7 +19,7 @@
   --surface-opacity: 0.72;
 
   /* Effects */
-  --fx-drop: drop-shadow(10px 10px 7px var(--color-shadow));
+  --fx-drop: drop-shadow(0 8px 10px var(--color-shadow));
   --fx-outline:
     -1px -1px 0 var(--color-shadow),
      1px -1px 0 var(--color-shadow),
