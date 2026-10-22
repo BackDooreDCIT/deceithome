@@ -56,7 +56,8 @@ body {
   flex-direction: column;
   inline-size: 100%;
   block-size: 100%;
-  padding: var(--page-pad-block) var(--page-pad-inline);
+  min-block-size: 0;
+  padding: var(--page-pad-block) var(--page-pad-inline) var(--page-pad-bottom);
 }
 html.align-center .main-content {
   align-items: center;

@@ -1,4 +1,6 @@
 :root {
+  color-scheme: dark;
+
   /* Fonts */
   --font-sans: "Lexend", sans-serif;
   --font-mono: "Roboto Mono", monospace;
@@ -10,6 +12,7 @@
   --color-accent: #ecb7ff;
   --color-shadow: #000000;
   --color-surface: color-mix(in srgb, var(--color-bg) 85%, white 15%);
+  --color-surface-solid: color-mix(in srgb, var(--color-bg) 88%, var(--color-fg) 12%);
   --color-border: color-mix(in srgb, var(--color-fg) 20%, transparent);
   --color-muted: color-mix(in srgb, var(--color-fg) 60%, var(--color-bg) 40%);
   --radius: 12px;
@@ -66,6 +69,7 @@
   /* Layout */
   --page-pad-block: 110px;
   --page-pad-inline: 100px;
+  --page-pad-bottom: 32px;
   --sidebar-w: 240px;
   --sidebar-peek: 10px;
   --tile-icon: 32px;

@@ -1,8 +1,10 @@
-import { clamp } from './dom.js';
+import { clamp, luminance } from './dom.js';
 import { isHttpUrl } from './url.js';
 import { setFace, setOpts, start, stop } from './clock.js';
+import { remeasure } from './search.js';
 
 const DEFAULT_IMG = "url('../img/default.jpg')";
+const FIT_MIN_GAP = 24;
 
 function cssEscapeUrl(str) {
   return String(str).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
@@ -25,6 +27,7 @@ export function applyTheme(prefs) {
   root.style.setProperty('--color-shadow', t.shadow);
   root.style.setProperty('--radius', `${t.radius}px`);
   root.style.setProperty('--surface-opacity', String(clamp(t.surfaceOpacity, 0, 1)));
+  root.style.setProperty('color-scheme', luminance(t.bg) > 0.5 ? 'light' : 'dark');
 }
 
 export function applyBackground(state) {
@@ -79,7 +82,6 @@ export function applyGreeting(prefs) {
 export function applyClockVars(prefs) {
   const c = prefs.clock;
   const root = document.documentElement;
-  root.style.setProperty('--clock-scale', String(clamp(c.scale, 0.6, 3)));
   root.classList.toggle('clock-hidden', !c.enabled);
   setFace(c.face);
   setOpts({
@@ -91,6 +93,37 @@ export function applyClockVars(prefs) {
   });
   if (c.enabled) start();
   else stop();
+}
+
+// The clock's chosen scale can't be allowed to claim more vertical room than
+// the window actually has, or the search bar gets pushed below the fold.
+// This must derive the cap from prefs + the greeting/anchor's own heights
+// only — never from .clock-wrap's current (already-scaled) height, which
+// would feed back into itself and oscillate.
+export function applyFit(prefs) {
+  const root = document.documentElement;
+  const main = document.querySelector('.main-content');
+  const welcome = document.querySelector('.welcome');
+  const anchor = document.getElementById('search-anchor');
+  const wrap = document.querySelector('.clock-wrap');
+  if (!main || !anchor) return;
+
+  const wanted = clamp(prefs.clock.scale, 0.6, 3);
+  if (!prefs.clock.enabled) {
+    root.style.setProperty('--clock-scale', String(wanted));
+    return;
+  }
+
+  const cs = getComputedStyle(main);
+  const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+  const avail = main.clientHeight - padY;
+
+  const greetH = prefs.greeting.enabled && welcome ? welcome.offsetHeight : 0;
+  const room = avail - greetH - anchor.offsetHeight - FIT_MIN_GAP;
+
+  const natural = wrap ? parseFloat(getComputedStyle(wrap).getPropertyValue('--clock-h')) || 100 : 100;
+  const maxScale = Math.max(0.6, room / natural);
+  root.style.setProperty('--clock-scale', String(Math.min(wanted, maxScale)));
 }
 
 export function applySearchVars(prefs) {
@@ -111,6 +144,8 @@ export function applyAll(state) {
   applyLayout(state.prefs);
   applyGreeting(state.prefs);
   applyClockVars(state.prefs);
+  applyFit(state.prefs);
   applySearchVars(state.prefs);
   applySidebarVars(state.prefs);
+  remeasure();
 }

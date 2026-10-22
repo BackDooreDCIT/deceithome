@@ -1,7 +1,8 @@
 .clock-wrap {
   inline-size: calc(var(--clock-w) * var(--clock-scale));
   block-size: calc(var(--clock-h) * var(--clock-scale));
-  flex: 0 0 auto;
+  min-block-size: 0;
+  flex: 0 1 auto;
 }
 html.clock-hidden .clock-wrap {
   display: none;
