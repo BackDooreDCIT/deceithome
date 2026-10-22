@@ -20,10 +20,6 @@ let blocks = [];
 let state = { h: '', m: '', s: '', secondIdx: null };
 
 function setNum(block, digit) {
-  if (digit === null) {
-    for (const b of block) b.classList.remove('active');
-    return;
-  }
   const pattern = NUMBERS[Number(digit)];
   for (let i = 0; i < block.length; i++) {
     block[i].classList.toggle('active', pattern[i] === 1);
@@ -56,14 +52,11 @@ function update(d, opts) {
   const sStr = d.getSeconds().toString().padStart(2, '0');
 
   let displayHour;
-  let hasTens;
   if (opts.hour12) {
     const h12 = d.getHours() % 12;
     displayHour = h12 === 0 ? 12 : h12;
-    hasTens = displayHour >= 10;
   } else {
     displayHour = d.getHours();
-    hasTens = true;
   }
   const hStr = displayHour.toString().padStart(2, '0');
   const hKey = `${opts.hour12 ? '12' : '24'}:${hStr}`;
@@ -89,7 +82,7 @@ function update(d, opts) {
   }
 
   if (hKey !== state.h) {
-    setNum(blocks[0], hasTens ? hStr[0] : null);
+    setNum(blocks[0], hStr[0]);
     setNum(blocks[1], hStr[1]);
     state.h = hKey;
   }
