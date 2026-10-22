@@ -10,3 +10,21 @@ export const AVATAR_PALETTE = [
   '#7986cb', '#64b5f6', '#4dd0e1', '#4db6ac',
   '#81c784', '#aed581', '#ffd54f', '#ff8a65'
 ];
+
+export const FONT_SANS = {
+  'Lexend': '"Lexend", sans-serif',
+  'Inter': '"Inter", sans-serif',
+  'Poppins': '"Poppins", sans-serif',
+  'DM Sans': '"DM Sans", sans-serif',
+  'Space Grotesk': '"Space Grotesk", sans-serif',
+  'Outfit': '"Outfit", sans-serif',
+  'System': 'system-ui, sans-serif'
+};
+
+export const FONT_MONO = {
+  'Roboto Mono': '"Roboto Mono", monospace',
+  'JetBrains Mono': '"JetBrains Mono", monospace',
+  'IBM Plex Mono': '"IBM Plex Mono", monospace',
+  'Space Mono': '"Space Mono", monospace',
+  'System': 'ui-monospace, monospace'
+};

@@ -2,6 +2,8 @@ import { clamp, luminance } from './dom.js';
 import { isHttpUrl } from './url.js';
 import { setFace, setOpts, start, stop } from './clock.js';
 import { remeasure } from './search.js';
+import { FONT_SANS, FONT_MONO } from './presets.js';
+import { ensureFont } from './fonts.js';
 
 const DEFAULT_IMG = "url('../img/default.jpg')";
 const FIT_MIN_GAP = 24;
@@ -28,6 +30,10 @@ export function applyTheme(prefs) {
   root.style.setProperty('--radius', `${t.radius}px`);
   root.style.setProperty('--surface-opacity', String(clamp(t.surfaceOpacity, 0, 1)));
   root.style.setProperty('color-scheme', luminance(t.bg) > 0.5 ? 'light' : 'dark');
+  root.style.setProperty('--font-sans', FONT_SANS[t.fontSans] || FONT_SANS.Lexend);
+  root.style.setProperty('--font-mono', FONT_MONO[t.fontMono] || FONT_MONO['Roboto Mono']);
+  ensureFont(t.fontSans);
+  ensureFont(t.fontMono);
 }
 
 export function applyBackground(state) {

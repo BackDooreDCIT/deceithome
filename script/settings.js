@@ -1,4 +1,5 @@
 import { clamp, deepGet, deepSet, deepMerge, debounce } from './dom.js';
+import { FONT_SANS, FONT_MONO } from './presets.js';
 
 export const SCHEMA_VERSION = 1;
 
@@ -12,7 +13,9 @@ export const DEFAULT_PREFS = {
     accent: '#ecb7ff',
     shadow: '#000000',
     surfaceOpacity: 0.72,
-    radius: 12
+    radius: 12,
+    fontSans: 'Lexend',
+    fontMono: 'Roboto Mono'
   },
   background: {
     kind: 'default',
@@ -74,7 +77,9 @@ const ENUM = {
   'search.engine': ['google', 'duckduckgo', 'bing', 'custom'],
   'sidebar.openOn': ['hover', 'click'],
   'layout.align': ['left', 'center'],
-  'theme.preset': ['midnight', 'paper', 'nord', 'rose', 'custom']
+  'theme.preset': ['midnight', 'paper', 'nord', 'rose', 'custom'],
+  'theme.fontSans': Object.keys(FONT_SANS),
+  'theme.fontMono': Object.keys(FONT_MONO)
 };
 
 function deepDefaults(target, defaults) {
@@ -119,6 +124,8 @@ function sanitize(prefs) {
   }
   if (p.theme) {
     p.theme.preset = checkEnum('theme.preset', p.theme.preset, DEFAULT_PREFS.theme.preset);
+    p.theme.fontSans = checkEnum('theme.fontSans', p.theme.fontSans, DEFAULT_PREFS.theme.fontSans);
+    p.theme.fontMono = checkEnum('theme.fontMono', p.theme.fontMono, DEFAULT_PREFS.theme.fontMono);
     if (typeof p.theme.surfaceOpacity === 'number') p.theme.surfaceOpacity = clamp(p.theme.surfaceOpacity, 0, 1);
   }
   return p;

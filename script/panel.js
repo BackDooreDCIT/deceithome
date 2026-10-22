@@ -1,7 +1,7 @@
 import * as settings from './settings.js';
 import { deepGet, debounce } from './dom.js';
 import { isHttpUrl } from './url.js';
-import { THEME_PRESETS } from './presets.js';
+import { THEME_PRESETS, FONT_SANS, FONT_MONO } from './presets.js';
 import * as perms from './permissions.js';
 import { ENGINES } from './engines.js';
 import { zoneList } from './time.js';
@@ -380,6 +380,17 @@ function closePanel() {
   (lastFocused || gearEl).focus({ preventScroll: true });
 }
 
+function populateOptions(selectEl, map) {
+  if (!selectEl) return;
+  selectEl.replaceChildren();
+  for (const name of Object.keys(map)) {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    selectEl.appendChild(opt);
+  }
+}
+
 function populateTimezones() {
   const list = document.getElementById('tz-list');
   if (!list) return;
@@ -398,6 +409,8 @@ export function init() {
   scrimEl = document.getElementById('panel-scrim');
   if (!panelEl || !gearEl || !scrimEl) return;
 
+  populateOptions(document.getElementById('theme-font-sans'), FONT_SANS);
+  populateOptions(document.getElementById('theme-font-mono'), FONT_MONO);
   populateTimezones();
 
   panelEl.addEventListener('input', onControlInput);
