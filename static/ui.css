@@ -319,13 +319,14 @@ input[type="file"] {
 /* The whole drawer — tab and panel together — is the single moving part, so
    the two can never desync into overlapping independently-animated pieces.
    Parked, it's pushed right by exactly the panel's width plus its edge
-   inset, which leaves the tab flush against the viewport edge and the
-   panel entirely off-screen. */
+   inset, which leaves the tab floating --sidebar-gap clear of the viewport
+   edge and the panel entirely off-screen. */
 #sidebar-drawer {
   display: flex;
   align-items: center;
+  gap: var(--sidebar-gap);
   pointer-events: none;
-  translate: calc(var(--sidebar-w) + var(--sidebar-edge)) 0;
+  translate: calc(var(--sidebar-w) + var(--sidebar-gap)) 0;
   transition: translate var(--fx-duration) var(--fx-ease);
 }
 #sidebar.open #sidebar-drawer {
@@ -346,14 +347,13 @@ input[type="file"] {
   justify-content: center;
   gap: 4px;
   background-color: var(--color-surface-solid);
-  border-style: solid;
-  border-width: 1px 0 1px 1px;
-  border-color: var(--color-border);
+  border: 1px solid var(--color-border);
   color: var(--color-fg);
   cursor: pointer;
   font-size: 14px;
   opacity: 0.85;
-  border-radius: var(--radius) 0 0 var(--radius);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-shadow) 35%, transparent);
   transition: opacity var(--fx-duration-fast) var(--fx-ease);
 }
 #sidebar-handle:hover,
@@ -361,12 +361,19 @@ input[type="file"] {
   opacity: 1;
 }
 
+/* Fluid now (no fixed width animating from 0, see the clipping fix from
+   last round). Floats free of the tab and the viewport edge as its own
+   fully-rounded card rather than butting flush against either — a rounded
+   left edge against the tab's square right edge would leave notches at the
+   seam, and a rounded edge pressed against the viewport looks clipped. */
 #sidebar-panel {
   width: var(--sidebar-w);
+  margin-right: var(--sidebar-gap);
   padding: 10px;
   pointer-events: none;
   background-color: color-mix(in srgb, var(--color-surface) calc(var(--surface-opacity) * 100%), transparent);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-shadow) 35%, transparent);
 }
 #sidebar.open #sidebar-panel {
   pointer-events: auto;

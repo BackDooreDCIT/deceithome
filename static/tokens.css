@@ -75,7 +75,12 @@
   --page-pad-bottom: 32px;
   --sidebar-w: 240px;
   --sidebar-peek: 28px;
-  --sidebar-edge: 10px;
+  /* Both the gap between the tab and the panel, and the panel's inset from
+     the viewport edge. These two must stay equal — see the drawer's closed
+     translate in ui.css: if the gap is smaller than the inset, the panel's
+     left edge peeks back on-screen when parked. One token keeps them locked
+     together. */
+  --sidebar-gap: 10px;
   --tile-icon: 32px;
   --panel-w: 420px;
 
