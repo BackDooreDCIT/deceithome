@@ -309,8 +309,6 @@ input[type="file"] {
   right: 0;
   top: 50%;
   translate: 0 -50%;
-  display: flex;
-  align-items: stretch;
   max-height: 70vh;
   z-index: 1;
 }
@@ -318,45 +316,67 @@ input[type="file"] {
   display: none;
 }
 
-#sidebar-panel {
-  width: 0;
-  overflow: hidden;
-  transition: width var(--fx-duration) var(--fx-ease);
-  background-color: color-mix(in srgb, var(--color-surface) calc(var(--surface-opacity) * 100%), transparent);
-  border-radius: var(--radius) 0 0 var(--radius);
+/* The whole drawer — tab and panel together — is the single moving part, so
+   the two can never desync into overlapping independently-animated pieces.
+   Parked, it's pushed right by exactly the panel's width plus its edge
+   inset, which leaves the tab floating --sidebar-gap clear of the viewport
+   edge and the panel entirely off-screen. */
+#sidebar-drawer {
+  display: flex;
+  align-items: center;
+  gap: var(--sidebar-gap);
+  pointer-events: none;
+  translate: calc(var(--sidebar-w) + var(--sidebar-gap)) 0;
+  transition: translate var(--fx-duration) var(--fx-ease);
 }
-#sidebar:not(.click-mode):hover #sidebar-panel,
-#sidebar.expanded #sidebar-panel {
-  width: var(--sidebar-w);
+#sidebar.open #sidebar-drawer {
+  translate: 0 0;
 }
 
-/* A centred pill tab, not a 70vh-tall sliver: align-self opts out of
-   #sidebar's align-items:stretch, and block-size gives it a real height.
-   Rounded on the left (the side touching open space) — its right edge sits
-   flush against the viewport edge, where rounding would be invisible. */
+/* The drawer is inert while parked (see above) — without pointer-events:auto
+   here the tab would be unclickable and the sidebar could never be opened
+   at all. block-size gives it a real height rather than stretching to
+   #sidebar's own (now content-driven) height. */
 #sidebar-handle {
   flex: 0 0 var(--sidebar-peek);
-  align-self: center;
   block-size: 84px;
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
   background-color: var(--color-surface-solid);
-  border-style: solid;
-  border-width: 1px 0 1px 1px;
-  border-color: var(--color-border);
+  border: 1px solid var(--color-border);
   color: var(--color-fg);
   cursor: pointer;
   font-size: 14px;
   opacity: 0.85;
-  border-radius: var(--radius) 0 0 var(--radius);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-shadow) 35%, transparent);
   transition: opacity var(--fx-duration-fast) var(--fx-ease);
 }
-#sidebar:hover #sidebar-handle,
-#sidebar.expanded #sidebar-handle {
+#sidebar-handle:hover,
+#sidebar.open #sidebar-handle {
   opacity: 1;
+}
+
+/* Fluid now (no fixed width animating from 0, see the clipping fix from
+   last round). Floats free of the tab and the viewport edge as its own
+   fully-rounded card rather than butting flush against either — a rounded
+   left edge against the tab's square right edge would leave notches at the
+   seam, and a rounded edge pressed against the viewport looks clipped. */
+#sidebar-panel {
+  width: var(--sidebar-w);
+  margin-right: var(--sidebar-gap);
+  padding: 10px;
+  pointer-events: none;
+  background-color: color-mix(in srgb, var(--color-surface) calc(var(--surface-opacity) * 100%), transparent);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-shadow) 35%, transparent);
+}
+#sidebar.open #sidebar-panel {
+  pointer-events: auto;
 }
 .sidebar-handle-label {
   display: none;
@@ -376,19 +396,17 @@ input[type="file"] {
 #tile-list {
   list-style: none;
   margin: 0;
-  padding: 10px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
   max-height: 50vh;
   overflow-y: auto;
-  width: var(--sidebar-w);
 }
 .tile-empty {
   color: var(--color-muted);
   font-size: 13px;
   padding: 8px;
-  width: var(--sidebar-w);
 }
 .tile {
   display: flex;
@@ -473,13 +491,27 @@ input[type="file"] {
 }
 
 #tile-add {
-  margin: 0 10px 10px;
-  width: calc(var(--sidebar-w) - 20px);
+  margin-top: 10px;
+  width: 100%;
 }
 #tile-form {
-  margin: 0 10px 10px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: calc(var(--sidebar-w) - 20px);
+}
+#tile-form .seg {
+  display: flex;
+  width: 100%;
+}
+#tile-form .seg-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 6px 4px;
+  text-align: center;
+}
+#tile-form input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  font-size: 12px;
 }

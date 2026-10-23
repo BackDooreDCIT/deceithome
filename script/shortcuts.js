@@ -6,6 +6,7 @@ import { AVATAR_PALETTE } from './presets.js';
 const ICON_KINDS = ['auto', 'emoji', 'url', 'upload'];
 
 let sidebarEl = null;
+let panelEl = null;
 let listEl = null;
 let formEl = null;
 let nameInput = null;
@@ -275,13 +276,15 @@ function syncPrefs(sidebarPrefs) {
 }
 
 function refreshHandleState() {
-  const expanded = pinned || (hovering && !sidebarEl.classList.contains('click-mode'));
-  handle.setAttribute('aria-expanded', String(expanded));
-  chevronEl.textContent = expanded ? '›' : '‹';
+  const open = pinned || (hovering && !sidebarEl.classList.contains('click-mode'));
+  sidebarEl.classList.toggle('open', open);
+  handle.setAttribute('aria-expanded', String(open));
+  chevronEl.textContent = open ? '›' : '‹';
 }
 
 export function init() {
   sidebarEl = document.getElementById('sidebar');
+  panelEl = document.getElementById('sidebar-panel');
   listEl = document.getElementById('tile-list');
   formEl = document.getElementById('tile-form');
   nameInput = document.getElementById('tile-name');
@@ -294,7 +297,7 @@ export function init() {
   chevronEl = document.getElementById('sidebar-handle-chevron');
   const saveBtn = formEl?.querySelector('[data-act="tile-save"]');
   const cancelBtn = formEl?.querySelector('[data-act="tile-cancel"]');
-  if (!sidebarEl || !listEl || !formEl || !nameInput || !urlInput || !iconEmojiInput || !iconUrlInput
+  if (!sidebarEl || !panelEl || !listEl || !formEl || !nameInput || !urlInput || !iconEmojiInput || !iconUrlInput
     || !iconUploadInput || !addBtn || !handle || !chevronEl || !saveBtn || !cancelBtn) return;
 
   render();
@@ -330,11 +333,20 @@ export function init() {
 
   handle.addEventListener('click', () => {
     pinned = !pinned;
-    sidebarEl.classList.toggle('expanded', pinned);
     refreshHandleState();
   });
-  sidebarEl.addEventListener('mouseenter', () => { hovering = true; refreshHandleState(); });
-  sidebarEl.addEventListener('mouseleave', () => { hovering = false; refreshHandleState(); });
+  // Listens on the handle and the panel specifically, not #sidebar as a
+  // whole: #sidebar-panel's width is permanent now (not animated from 0),
+  // so #sidebar's own flex box is always ~270px wide whether or not the
+  // panel is actually visible, and #sidebar:hover (or a mouseenter/leave
+  // pair on #sidebar) would fire across that entire width — including the
+  // ~240px of empty space the parked, pointer-events:none panel still
+  // occupies in layout. The panel is also listened on so moving the mouse
+  // from the handle onto the now-visible panel content doesn't close it.
+  handle.addEventListener('mouseenter', () => { hovering = true; refreshHandleState(); });
+  handle.addEventListener('mouseleave', () => { hovering = false; refreshHandleState(); });
+  panelEl.addEventListener('mouseenter', () => { hovering = true; refreshHandleState(); });
+  panelEl.addEventListener('mouseleave', () => { hovering = false; refreshHandleState(); });
 
   syncPrefs(settings.get().prefs.sidebar);
   refreshHandleState();
