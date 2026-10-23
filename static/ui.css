@@ -376,19 +376,17 @@ input[type="file"] {
 #tile-list {
   list-style: none;
   margin: 0;
-  padding: 10px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
   max-height: 50vh;
   overflow-y: auto;
-  width: var(--sidebar-w);
 }
 .tile-empty {
   color: var(--color-muted);
   font-size: 13px;
   padding: 8px;
-  width: var(--sidebar-w);
 }
 .tile {
   display: flex;
@@ -473,13 +471,27 @@ input[type="file"] {
 }
 
 #tile-add {
-  margin: 0 10px 10px;
-  width: calc(var(--sidebar-w) - 20px);
+  margin-top: 10px;
+  width: 100%;
 }
 #tile-form {
-  margin: 0 10px 10px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: calc(var(--sidebar-w) - 20px);
+}
+#tile-form .seg {
+  display: flex;
+  width: 100%;
+}
+#tile-form .seg-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 6px 4px;
+  text-align: center;
+}
+#tile-form input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  font-size: 12px;
 }
