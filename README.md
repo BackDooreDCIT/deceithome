@@ -2,7 +2,6 @@
 
 A **Chrome extension** for customizing your New Tab page into a clean, and minimalistic page
 
-###### *(This project's progress has been slowed down due to studies.)*
 
 # Overview
 
