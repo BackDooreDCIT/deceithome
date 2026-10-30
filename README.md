@@ -23,7 +23,7 @@ An example of what the page could be customized to.
 
 # Installation
 
-To install this extension on Chrome, **you will need to clone this repository.** After you’re done cloning, you will need to **load an unpacked extension** into your Chrome browser.
+To install this extension on Chrome, **you will need to [download the latest release](https://github.com/BackDooreDCIT/deceithome/releases)** After you’re done downloading, you will need to **load an unpacked extension** into your Chrome browser.
 
 Don’t know how? Here’s a quick guide.
 
